@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1493419492 source:h:\c++\groupproject\groupproject\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+	"Shapes.h"
+
+1493417992 h:\c++\groupproject\groupproject\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1493420246 h:\c++\groupproject\groupproject\shapes.h
+	"SDL_Plotter.h"
+
+1493420247 source:h:\c++\groupproject\groupproject\shapes.cpp
+	"Shapes.h"
+
