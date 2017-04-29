@@ -11,21 +11,29 @@ int main(int argc, char ** argv)
 {
 
     SDL_Plotter g(800, 1280);
+    Point origin(100,700);
+    Point size(700,600);
+    Point topLeft(origin.x,origin.y - size.y);
+    Point bottomRight(origin.x + size.x, origin.y);
+    Point topRight(origin.x + size.x, origin.y - size.y);
 
-    Line line1(Point(100, 700), Point(1180, 700));
+    Color outlineColor = COLOR::BLUE;
+    Line xAxis(origin, bottomRight);
+    Line yAxis(origin, topLeft);
+    Line top(topLeft, topRight);
+    Line right(topRight, bottomRight);
 
-    line1.setColor(COLOR::GREEN);
-    line1.setStroke(3);
-    line1.draw(g);
+    xAxis.setColor(outlineColor);
+    yAxis.setColor(outlineColor);
+    top.setColor(outlineColor);
+    right.setColor(outlineColor);
 
-    Line line2(Point(100, 100), Point(100, 550));
-    line2.draw(g);
+    xAxis.draw(g);
+    yAxis.draw(g);
+    top.draw(g);
+    right.draw(g);
 
-    Rectangle r(Point(500, 500), 50, 50);
-    r.setColor(COLOR::BLUE);
-    r.draw(g);
-
-    Grapher graph(&g, 100, 100, 700);
+    Grapher graph(&g, 10, origin, size);
     graph.test();
 
     while(!g.getQuit()){

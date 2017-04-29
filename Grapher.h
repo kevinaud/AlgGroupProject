@@ -9,7 +9,7 @@
 
 class Grapher{
 public:
-	Grapher(SDL_Plotter *p, int n, int x, int y);
+	Grapher(SDL_Plotter *p, int n, Point origin, Point size);
     void plot(int** (*f)(int**,int**,int));
     void test();
     void setColor(Color);

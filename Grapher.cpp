@@ -1,5 +1,7 @@
 #include "Grapher.h"
 
+#define MAX_TIME 200.0
+
 //DEBUGGING
 #include <iostream>
 using namespace std;
@@ -13,10 +15,12 @@ int ** testFunc(int **A, int **B, int dim){
     return c;
 }
 
-Grapher::Grapher(SDL_Plotter *p, int n, int x, int y){
+Grapher::Grapher(SDL_Plotter *p, int n, Point origin, Point size){
     this->n = n;	
-    this->x = x;
-    this->y = y;
+    this->x = origin.x;
+    this->y = origin.y;
+    this->w = size.x;
+    this->h = size.y;
     plotter = p;
     c = COLOR::BLACK;
 }
@@ -34,9 +38,9 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
     
     int **A, **B, **C;
 
-    int prevX = -1;
-    int prevY = -1;
-    for(int cur = 2; cur < n; cur += 2){
+    int prevX = x;
+    int prevY = y;
+    for(int cur = 2; cur <= n; cur += 2){
         //allocate matrices
         A = new int*[cur];
         B = new int*[cur];
@@ -58,16 +62,18 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
         C = f(A,B,cur);
         int end = SDL_GetTicks(); 
         int time = end - start;
-        cout << x << ',' << y << endl;
-        cout << "time " << time << endl;
-        cout << "drawing " << x + (cur * 10) << ',' << y - time << endl;
-        plotter->plotPixel(x + (10 * cur) , y - time, c.r, c.g, c.b);
-        if(prevX > -1 && prevY > -1){
-            Line l(Point(prevX, prevY),Point(x + (10 * cur),y - time));
-            l.draw(*plotter);
-        }
-        prevX = x + (10 * cur);
-        prevY = y - time;
+
+        cout << "time: " << time << endl;
+
+        int normX = x + (double)w * ((double)cur / (double)n);
+        int normY = y - (double)h * ((double)time / (double)MAX_TIME);
+        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
+
+        Line l(Point(prevX, prevY),Point(normX, normY));
+        l.draw(*plotter);
+
+        prevX = normX;
+        prevY = normY;
 
         plotter->update();
 
