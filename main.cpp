@@ -6,7 +6,6 @@
 #include "Color.h"
 #include "Graph.h"
 #include "Font.h"
-#include "Grapher.h"
 
 using namespace std;
 

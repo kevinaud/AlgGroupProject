@@ -115,7 +115,7 @@ void Graph::plot(int** (*f)(int**,int**,int)){
         //time algorithm
         int time = SDL_GetTicks();
         C = f(A,B,cur);
-        int time = SDL_GetTicks() - time; 
+        time = SDL_GetTicks() - time; 
 
         //adjust y for the new maxTime
         if(time > maxTime){
