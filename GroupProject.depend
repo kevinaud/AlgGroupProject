@@ -19,3 +19,23 @@
 1493420247 source:h:\c++\groupproject\groupproject\shapes.cpp
 	"Shapes.h"
 
+1493425255 source:h:\algorithms_project\alggroupproject\shapes.cpp
+	"Shapes.h"
+
+1493425255 h:\algorithms_project\alggroupproject\shapes.h
+	"SDL_Plotter.h"
+
+1493425255 h:\algorithms_project\alggroupproject\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1493425534 source:h:\algorithms_project\alggroupproject\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+	"Shapes.h"
+

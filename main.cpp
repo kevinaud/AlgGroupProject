@@ -14,7 +14,7 @@ int main(int argc, char ** argv)
     line.draw(g, 5);
     g.update();
 
-    /*int x,y, xd, yd;
+    int x,y, xd, yd;
     int R,G,B;
 
     while (!g.getQuit())
@@ -34,6 +34,6 @@ int main(int argc, char ** argv)
     	if(g.kbhit()){
     	    g.getKey();
     	}
-    }*/
+    }
     return 0;
 }
