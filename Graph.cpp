@@ -29,18 +29,18 @@ Graph::Graph(SDL_Plotter *p, int n, Point origin, Point size){
 void Graph::drawAxis(Color c){
     Point topLeft(origin.x,origin.y - size.y);
     Point bottomRight(origin.x + size.x, origin.y);
-    //Point topRight(origin.x + size.x, origin.y - size.y);
+    Point topRight(origin.x + size.x, origin.y - size.y);
 
-    Color outlineColor = COLOR::BLUE;
     Line xAxis(origin, bottomRight);
     Line yAxis(origin, topLeft);
-    //Line top(topLeft, topRight);
+    Line top(topLeft, topRight);
+    //top.setStroke(20);
     //Line right(topRight, bottomRight);
 
-    xAxis.setColor(outlineColor);
-    yAxis.setColor(outlineColor);
-    //top.setColor(outlineColor);
-    //right.setColor(outlineColor);
+    xAxis.setColor(c);
+    yAxis.setColor(c);
+    //top.setColor(COLOR::GREEN);
+    //right.setColor(c);
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
@@ -56,11 +56,9 @@ void Graph::redraw(){
     plotter->clear();
     drawAxis();
     //recalculate y based on maxTime
-    for(int j = 0; j < points.size(); j++){
-        for(int k = 0; k < points[j].size(); k++){
+    for(int j = 0; j < points.size(); j++)
+        for(int k = 0; k < points[j].size(); k++)
             points[j][k].y = origin.y - (double)size.y * ((double)times[j][k] / (double)maxTime);
-        }
-    }
 
     //redraw points
     for(int j = 0; j < points.size(); j++){
@@ -77,6 +75,7 @@ void Graph::clear(){
     plotter->clear();
     points.clear();
     times.clear();
+    redraw();
 }
 
 void Graph::setColor(Color c){
@@ -117,20 +116,21 @@ void Graph::plot(int** (*f)(int**,int**,int)){
         C = f(A,B,cur);
         time = SDL_GetTicks() - time; 
 
+
+        int normX = origin.x + (double)size.x * ((double)cur / (double)n);
+        int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
+        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
+
         //adjust y for the new maxTime
         if(time > maxTime){
             prevMax = maxTime;
             maxTime = time;
             redraw();
         }
-
-        int normX = origin.x + (double)size.x * ((double)cur / (double)n);
-        int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
-        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
-
-        Line l(Point(prevX, prevY),Point(normX, normY));
-        l.draw(*plotter);
-
+        else{
+            Line l(Point(prevX, prevY),Point(normX, normY));
+            l.draw(*plotter);
+        }
         prevX = normX;
         prevY = normY;
         points.back().push_back(Point(prevX,prevY));

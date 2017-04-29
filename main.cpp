@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
 
     Point origin(100,700);
     Point graphSize(700,600);
-    int n = 100;
+    int n = 200;
 
     Graph graph(&g, n, origin, graphSize);
     graph.test();
