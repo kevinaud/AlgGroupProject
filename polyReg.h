@@ -29,8 +29,23 @@ double * polyReg(int* x, int* y, int n, int deg){
     double** A2 = notSquareMatMult(zT,Y,deg,n,1);
     delete []zT,Y;
 
-    double* a = new double[deg];
+    double ** A = new double*[n]
+    for(int i = 0; i < n; i++){
+        A[i] = new double[n+1];
+        for(int j = 0; j < n; j++){
+            A[i][j] = A1[i][j];
+        }
+        A[i][n] = A2[i][0];
+    }
+    delete []A1,A2;
+    gaussJordan(A,n);
 
+    double* a = new double[deg];
+    for(int i = 0; i < deg; i++){
+        a[i] = A[i][n+1];
+    }
+
+    return a;
 
 }
 
