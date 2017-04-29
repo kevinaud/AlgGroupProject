@@ -258,6 +258,33 @@ public:
         }
     }
 
+    int calcCharLength(char c) {
+        vector<Line>::iterator itr = chars[c].begin();
+        int maxX = max(itr->p1.x, itr->p2.x);
+
+        while(itr != chars[c].end()) {
+            if (max(itr->p1.x, itr->p2.x) > maxX) {
+                maxX = max(itr->p1.x, itr->p2.x);
+            }
+            itr++;
+        }
+        return maxX;
+    }
+
+    int calcStringLength(string s) {
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        string::iterator itr = s.begin();
+        int length = 0;
+        while (itr != s.end()) {
+            if (*itr == ' ') {
+                length += size;
+            } else {
+                length += calcCharLength(*itr) + (size / 3);
+            }
+            itr++;
+        }
+    }
+
     void drawInt(SDL_Plotter &p, Point loc, int num){
         string str;
         while(num){

@@ -44,10 +44,15 @@ void Graph::drawAxis(){
     const int FONT_SIZE = 25;
     Font f(FONT_SIZE);
 
-    f.drawString(*plotter, Point(topLeft.x - 75, topLeft.y - FONT_SIZE - 5), "Y(time)");
+    f.drawString(*plotter, Point(topLeft.x - 75, topLeft.y - FONT_SIZE - 50), "Y(time)");
 
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
     f.drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + FONT_SIZE + 40), "X(matrix size)");
+
+    for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
+        Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
+        //string label =
+    }
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);

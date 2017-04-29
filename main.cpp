@@ -79,8 +79,6 @@ int main(int argc, char ** argv)
             case 'D':
                 on[1] = !on[1];
                 if(on[1]){
-
-
                     f.setColor(COLOR::GREEN);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 30),"D Divide and Conquer");
 
