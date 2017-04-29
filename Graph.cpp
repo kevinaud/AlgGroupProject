@@ -23,6 +23,7 @@ Graph::Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size){
     this->origin = origin;
     this->size = size;
     plotter = &p;
+    nloc = Point(-1,-1);
     font = &f;
     c = COLOR::BLACK;
     eraser = COLOR::WHITE;

@@ -203,6 +203,12 @@ public:
     int drawChar(SDL_Plotter& p, Point loc, char c) {
         vector<Line>::iterator itr = chars[c].begin();
         int maxX = max(itr->p1.x, itr->p2.x);
+
+        //erase background
+        Rectangle r(loc,size + 2,size + 2);
+        r.setColor(COLOR::WHITE);
+        r.draw(p);
+
         while(itr != chars[c].end()) {
             if (max(itr->p1.x, itr->p2.x) > maxX) {
                 maxX = max(itr->p1.x, itr->p2.x);
