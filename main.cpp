@@ -28,6 +28,9 @@ int main(int argc, char ** argv)
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
+    Circle c(origin,10);
+    c.draw(g);
+
     g.update();
 
     while(!g.getQuit()){
