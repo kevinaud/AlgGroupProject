@@ -6,6 +6,8 @@
 #include "Color.h"
 #include "Graph.h"
 #include "Font.h"
+#include "ThreadedStrassen.h"
+#include "PolyReg.h"
 
 
 #define MAX_N 500
@@ -94,6 +96,7 @@ int main(int argc, char ** argv)
                 if(on[2]){
                     f.setColor(COLOR::BLUE);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
+                    //graph.plot(&Strassen);
                 }
                 else{
                     f.setColor(COLOR::BLACK);
@@ -105,6 +108,8 @@ int main(int argc, char ** argv)
                 if(on[3]){
                     f.setColor(COLOR::PURPLE);
                     f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 90),"T Threaded Straussen");
+                    graph.plot(&ThreadedStrassen);
+
                 }
                 else{
                     f.setColor(COLOR::BLACK);
