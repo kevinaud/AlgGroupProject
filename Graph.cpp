@@ -93,7 +93,7 @@ void Graph::plot(int** (*f)(int**,int**,int)){
     points.push_back(vector<Point>());
     times.push_back(vector<int>());
     points.back().push_back(Point(prevX,prevY));
-    times.back().push_back(1);
+    times.back().push_back(0);
 
     for(int cur = 2; cur <= n; cur += 2){
         //allocate matrices
