@@ -1,24 +1,24 @@
 #ifndef COLOR_H_INCLUDED
 #define COLOR_H_INCLUDED
 
+
 class Color {
   public:
-    static const Planet MERCURY;
-    static const Planet VENUS;
-    // ...
-
-  private:
-    double mass;   // in kilograms
-    double radius; // in meters
-
-  private:
-    Planet(double mass, double radius) {
-        this->mass = mass;
-        this->radius = radius;
+    Color(int r, int g, int b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
     }
-
-  public:
-    // Properties and methods go here
+    int r;
+    int g;
+    int b;
 };
+
+namespace COLOR {
+    const Color BLACK(0, 0, 0);
+    const Color RED(255, 0, 0);
+    const Color GREEN(0, 255, 0);
+    const Color BLUE(0, 0, 255);
+}
 
 #endif
