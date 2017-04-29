@@ -215,6 +215,10 @@ public:
         this->color = color;
     }
 
+    int getSize() {
+        return size;
+    }
+
     int drawChar(SDL_Plotter& p, Point loc, char c) {
         vector<Line>::iterator itr = chars[c].begin();
         int maxX = max(itr->p1.x, itr->p2.x);

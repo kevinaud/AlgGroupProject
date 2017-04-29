@@ -23,12 +23,15 @@ int main(int argc, char ** argv)
     Point graphSize(700,600);
     int n = 100;
     char key;
-    Font font(30);
+    Font font(15);
 
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
-    Circle c(origin,10);
+    DataPoint d(Point(12,300), Point(800, 400));
+    d.draw(g, font, 4);
+
+    Circle c(origin,3);
     c.draw(g);
 
     g.update();
