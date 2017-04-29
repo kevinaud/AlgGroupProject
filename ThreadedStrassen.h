@@ -78,7 +78,7 @@ int** ThreadedStrassen(int **A, int **B, int dim) {
         C[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];
         C[1][0] = A[1][0]*B[0][0]+A[1][1]*B[1][0];
         C[1][1] = A[1][0]*B[0][1]+A[1][1]*B[1][1]; 
-    return C;
+    	return C;
     }
 	
 	int** a = newMatrix(0, 0, A, dim);
@@ -167,6 +167,46 @@ int** ThreadedStrassen(int **A, int **B, int dim) {
 			C[i][j] = C4[i-dim/2][j-dim/2];
 		}
 	}
+    for (int i = 0; i < dim/2; i++) {
+   		delete [] a[i];
+		delete [] b[i]; 
+		delete [] c[i];
+		delete [] d[i];
+		delete [] e[i];
+		delete [] f[i]; 
+		delete [] g[i];
+		delete [] h[i];  
+		delete [] p1[i];
+		delete [] p2[i]; 
+		delete [] p3[i];
+		delete [] p4[i];
+		delete [] p5[i];
+		delete [] p6[i]; 
+		delete [] p7[i];
+		delete [] C1[i];
+		delete [] C2[i];
+		delete [] C3[i]; 
+		delete [] C4[i];
+	} 
+	delete [] a;
+	delete [] b; 
+	delete [] c;
+	delete [] d;
+	delete [] e;
+	delete [] f; 
+	delete [] g;
+	delete [] h;  
+	delete [] p1;
+	delete [] p2; 
+	delete [] p3;
+	delete [] p4;
+	delete [] p5;
+	delete [] p6; 
+	delete [] p7;
+	delete [] C1;
+	delete [] C2;
+	delete [] C3; 
+	delete [] C4;
     return C;
 
 }
@@ -179,7 +219,7 @@ void* threadFunc(void* matrix_data){
 	for(int i = 0; i < dim; i++){
 		ret_mat[i] = new int[dim];
 	}
-
+	
 	ret_mat = Strassen(data->A, data->B, data->dim);
 	data->ret = ret_mat;
 }
@@ -315,6 +355,46 @@ int** Strassen(int **A, int **B, int dim) {
 			C[i][j] = C4[i-dim/2][j-dim/2];
 		}
 	}
+	for (int i = 0; i < dim/2; i++) {
+   		delete [] a[i];
+		delete [] b[i]; 
+		delete [] c[i];
+		delete [] d[i];
+		delete [] e[i];
+		delete [] f[i]; 
+		delete [] g[i];
+		delete [] h[i];  
+		delete [] p1[i];
+		delete [] p2[i]; 
+		delete [] p3[i];
+		delete [] p4[i];
+		delete [] p5[i];
+		delete [] p6[i]; 
+		delete [] p7[i];
+		delete [] C1[i];
+		delete [] C2[i];
+		delete [] C3[i]; 
+		delete [] C4[i];
+	} 
+	delete [] a;
+	delete [] b; 
+	delete [] c;
+	delete [] d;
+	delete [] e;
+	delete [] f; 
+	delete [] g;
+	delete [] h;  
+	delete [] p1;
+	delete [] p2; 
+	delete [] p3;
+	delete [] p4;
+	delete [] p5;
+	delete [] p6; 
+	delete [] p7;
+	delete [] C1;
+	delete [] C2;
+	delete [] C3; 
+	delete [] C4;
     return C;
 
 }
