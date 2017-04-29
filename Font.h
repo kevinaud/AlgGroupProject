@@ -283,6 +283,7 @@ public:
             }
             itr++;
         }
+        return length;
     }
 
     void drawInt(SDL_Plotter &p, Point loc, int num){

@@ -49,9 +49,19 @@ void Graph::drawAxis(){
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
     f.drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + FONT_SIZE + 40), "X(matrix size)");
 
+    int i = 0;
+    int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
-        //string label =
+        string label = to_string(i * step);
+        int labelLength = f.calcStringLength(label);
+        cout << label << ", LENGTH=" << labelLength << endl;
+        Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * f.getSize()));
+        if (labelLoc.x < 0) {
+            labelLoc.x = 0;
+        }
+        f.drawString(*plotter, labelLoc, label);
+        i++;
     }
 
     xAxis.draw(*plotter);
