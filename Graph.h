@@ -14,9 +14,10 @@ typedef int**(*MatrixMultFunc)(int**,int**,int);
 class Graph{
 public:
 	Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size);
-    void drawAxis(Color c = COLOR::BLACK);
+    void drawAxis();
     void plot(MatrixMultFunc);
     void test();
+    void erase(MatrixMultFunc f = NULL);
     void redraw();
     void clear();
     void clear(MatrixMultFunc);
@@ -32,6 +33,7 @@ private:
           nloc;
     SDL_Plotter *plotter;
     Color c;
+    Color eraser;
     Font *font;
     map<MatrixMultFunc,vector<Point> > points;
     map<MatrixMultFunc,vector<int> > times;

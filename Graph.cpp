@@ -25,25 +25,20 @@ Graph::Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size){
     plotter = &p;
     font = &f;
     c = COLOR::BLACK;
+    eraser = COLOR::WHITE;
     redraw();
 }
 
-void Graph::drawAxis(Color c){
+void Graph::drawAxis(){
 
     Point topLeft(origin.x,origin.y - size.y);
     Point bottomRight(origin.x + size.x, origin.y);
-    Point topRight(origin.x + size.x, origin.y - size.y);
 
     Line xAxis(origin, bottomRight);
     Line yAxis(origin, topLeft);
-    Line top(topLeft, topRight);
-    //top.setStroke(20);
-    //Line right(topRight, bottomRight);
 
     xAxis.setColor(c);
     yAxis.setColor(c);
-    //top.setColor(COLOR::GREEN);
-    //right.setColor(c);
 
     const int FONT_SIZE = 25;
     Font f(FONT_SIZE);
@@ -52,16 +47,34 @@ void Graph::drawAxis(Color c){
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
-    //top.draw(*plotter);
-    //right.draw(*plotter);
 }
 
 void Graph::test(){
     plot(&testFunc);
 }
 
+void Graph::erase(MatrixMultFunc f){
+    cout << "erase" << endl;
+    if(f){
+        for(int k = 1; k < points[f].size(); k++){
+            Line l(points[f][k - 1],points[f][k]);
+            l.setColor(eraser);
+            l.draw(*plotter);
+        }
+    }
+    else{
+        for(auto j : points){
+            for(int k = 1; k < j.second.size(); k++){
+                Line l(j.second[k - 1],j.second[k]);
+                l.setColor(eraser);
+                l.draw(*plotter);
+            }
+        }
+    }
+}
+
 void Graph::redraw(){
-    plotter->clear();
+    erase();
     if(nloc.x > -1 && nloc.y > -1)
         font->drawLabeledInt(*plotter,nloc,"N ",n);
     drawAxis();
@@ -78,6 +91,7 @@ void Graph::redraw(){
     for(auto j : points){
         for(int k = 1; k < j.second.size(); k++){
             Line l(j.second[k - 1],j.second[k]);
+            l.setColor(c);
             l.draw(*plotter);
         }
     }
@@ -85,25 +99,29 @@ void Graph::redraw(){
 
 void Graph::clear(){
     maxTime = START_MAX_TIME;
-    plotter->clear();
+    erase();
     points.clear();
     times.clear();
     redraw();
 }
 
 void Graph::clear(MatrixMultFunc f){
-    points.erase(f);
-    times.erase(f);
+    if(points.find(f) != points.end()){
+        erase(f);
 
-    cout << "max: " << maxTime << endl;
-    //find new maxTime
-    maxTime = START_MAX_TIME;
-    for(auto t : times)
-        for(int k = 0; k < t.second.size(); k++)
-            maxTime = max(maxTime,t.second[k]);
-    cout << "newMax: " << maxTime << endl;
+        points.erase(f);
+        times.erase(f);
 
-    redraw();
+        cout << "max: " << maxTime << endl;
+        //find new maxTime
+        maxTime = START_MAX_TIME;
+        for(auto t : times)
+            for(int k = 0; k < t.second.size(); k++)
+                maxTime = max(maxTime,t.second[k]);
+        cout << "newMax: " << maxTime << endl;
+
+        redraw();
+    }
 }
 
 void Graph::setColor(Color c){
@@ -127,14 +145,17 @@ void Graph::plot(MatrixMultFunc f){
 
     int prevX = origin.x;
     int prevY = origin.y;
-    points[f] = vector<Point>();
-    times[f] = vector<int>();
+
+    clear(f);
     points[f].push_back(Point(prevX,prevY));
     times[f].push_back(0);
 
-    int step = n / MOST_TESTS;
+    int step = 2;
+    if(n > MOST_TESTS)
+        int step = n / MOST_TESTS;
 
     for(int cur = 2; cur <= n; cur += step){
+        cout << "max: " << maxTime << endl;
         //allocate matrices
         A = new int*[cur];
         B = new int*[cur];

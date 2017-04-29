@@ -34,6 +34,10 @@ Line::Line(Point p1, Point p2) {
     this->p2 = p2;
 }
 
+void Line::setColor(Color color){
+    this->color = color;
+}
+
 void Line::setStroke(int stroke) {
     this->stroke = stroke;
 }

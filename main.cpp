@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
-        Font f(25);
+    Font f(25);
 
 
     f.drawString(g, Point(700, 500), "this is a test(");
