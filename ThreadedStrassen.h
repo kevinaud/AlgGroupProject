@@ -13,6 +13,7 @@
 
 #include <cstdlib>
 #include <pthread.h>
+#define PAD 1
 
 using namespace std;
 
@@ -44,11 +45,15 @@ void* threadFunc(void* matrix_data);
 int** newMatrix(int rowBegin, int colBegin, int** matrix, int dim);
 int** addMatrix(int** A, int** B, int dim);
 int** subMatrix(int** A, int** B, int dim);
-
+int** padZero(int** Matrix, int dim);
 // DEFINITIONS
 
 int** ThreadedStrassen(int **A, int **B, int dim) {
-    
+    if(dim%2 != 0){
+	A = padZero(A, dim);
+	B = padZero(B, dim);
+	dim++;
+    }
 
 	const int THREAD_COUNT = 7;
 	pthread_t threads[THREAD_COUNT];
@@ -69,12 +74,12 @@ int** ThreadedStrassen(int **A, int **B, int dim) {
     }
 
     if(dim == 2){
-	C[0][0] = A[0][0]*B[0][0]+A[0][1]*B[1][0];
-	C[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];
+        C[0][0] = A[0][0]*B[0][0]+A[0][1]*B[1][0];
+        C[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];
         C[1][0] = A[1][0]*B[0][0]+A[1][1]*B[1][0];
         C[1][1] = A[1][0]*B[0][1]+A[1][1]*B[1][1]; 
-    	return C;
-	}
+    return C;
+    }
 	
 	int** a = newMatrix(0, 0, A, dim);
 	int** b = newMatrix(0, dim/2, A, dim);
@@ -221,11 +226,35 @@ int** subMatrix(int** A, int** B, int dim){
 	return C;
 }
 
+int** padZero(int** Matrix, int dim){
+	int** newMat = new int*[dim+PAD];
+	for(int i  = 0; i < dim+PAD;i++){
+		newMat[i] = new int[dim+PAD];
+	}
+	for(int i = 0; i < dim;i++){
+		for(int j = 0;j < dim;j++){
+			newMat[i][j] = Matrix[i][j];;
+		}
+	}
+	for(int i = 0; i < dim+PAD;i++){
+		newMat[i][dim] = 0;
+	}
+	for(int i = 0; i < dim+PAD;i++){
+		newMat[dim][i] = 0;
+	}
+ 	return newMat;
+}
+
 int** Strassen(int **A, int **B, int dim) {
 
+
+    if(dim%2 != 0){
+	A = padZero(A, dim);
+	B = padZero(B, dim);
+	dim++;
+    }
     // used to hold solution matrix
     int **C = new int*[dim];
-
 
     // initialize C to all zeroes
     for (int i = 0; i < dim; i++) {
@@ -235,14 +264,14 @@ int** Strassen(int **A, int **B, int dim) {
         }
     }
 
-    if(dim == 2){
+    	if(dim == 2){
 	C[0][0] = A[0][0]*B[0][0]+A[0][1]*B[1][0];
 	C[0][1] = A[0][0]*B[0][1]+A[0][1]*B[1][1];
         C[1][0] = A[1][0]*B[0][0]+A[1][1]*B[1][0];
         C[1][1] = A[1][0]*B[0][1]+A[1][1]*B[1][1]; 
     	return C;
 	}
-	
+	cout << dim << endl;
 	int** a = newMatrix(0, 0, A, dim);
 	int** b = newMatrix(0, dim/2, A, dim);
 	int** c = newMatrix(dim/2, 0, A, dim);
