@@ -215,6 +215,16 @@ public:
         }
     }
 
+    void drawInt(SDL_Plotter &p, Point loc, int num){
+        string str;
+        while(num){
+            str.insert(0,1,(num % 10) + '0');
+            num /= 10; 
+        }
+        cout << "drawing int: " << str << endl;
+        drawString(p,loc,str);
+    }
+
 };
 
 #endif

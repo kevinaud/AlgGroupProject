@@ -4,3 +4,4 @@ obj\
 *.exe
 *.layout
 *.orig
+*.out
