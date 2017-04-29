@@ -1,6 +1,7 @@
 #include "Graph.h"
 
-#define START_MAX_TIME 50
+#define START_MAX_TIME 1
+#define MOST_TESTS 100
 
 //DEBUGGING
 #include <iostream>
@@ -16,14 +17,15 @@ int ** testFunc(int **A, int **B, int dim){
     return c;
 }
 
-Graph::Graph(SDL_Plotter *p, int n, Point origin, Point size){
-    this->n = n;	
+Graph::Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size){
+    this->n = n;
     maxTime = START_MAX_TIME;
     this->origin = origin;
     this->size = size;
-    plotter = p;
+    plotter = &p;
+    font = &f;
     c = COLOR::BLACK;
-    drawAxis();
+    redraw();
 }
 
 void Graph::drawAxis(Color c){
@@ -54,16 +56,22 @@ void Graph::test(){
 
 void Graph::redraw(){
     plotter->clear();
+    if(nloc.x > -1 && nloc.y > -1)
+        font->drawInt(*plotter,nloc,n);
     drawAxis();
     //recalculate y based on maxTime
-    for(int j = 0; j < points.size(); j++)
-        for(int k = 0; k < points[j].size(); k++)
-            points[j][k].y = origin.y - (double)size.y * ((double)times[j][k] / (double)maxTime);
+    for(auto j : points){
+        auto t = times.begin();
+        for(int k = 0; k < j.second.size(); k++){
+            j.second[k].y = origin.y - (double)size.y * ((double)t->second[k] / (double)maxTime);
+        }
+        t++;
+    }
 
     //redraw points
-    for(int j = 0; j < points.size(); j++){
-        for(int k = 1; k < points[j].size(); k++){
-            Line l(points[j][k - 1],points[j][k]);
+    for(auto j : points){
+        for(int k = 1; k < j.second.size(); k++){
+            Line l(j.second[k - 1],j.second[k]);
             l.draw(*plotter);
         }
     }
@@ -82,19 +90,37 @@ void Graph::setColor(Color c){
     this->c = c;
 }
 
-void Graph::plot(int** (*f)(int**,int**,int)){
-    srand(time(NULL));
+void Graph::setN(int n){
+    this->n = n;
+    redraw();
+}
+
+void Graph::setNLoc(Point nl){
+    nloc = nl;
+    redraw();
+}
+
+void Graph::clear(MatrixMultFunc f){
+    points.erase(f);
+    times.erase(f);
+    redraw();
+}
+
+void Graph::plot(MatrixMultFunc f){
+    srand(SDL_GetTicks());
     
     int **A, **B, **C;
 
     int prevX = origin.x;
     int prevY = origin.y;
-    points.push_back(vector<Point>());
-    times.push_back(vector<int>());
-    points.back().push_back(Point(prevX,prevY));
-    times.back().push_back(0);
+    points[f] = vector<Point>();
+    times[f] = vector<int>();
+    points[f].push_back(Point(prevX,prevY));
+    times[f].push_back(0);
 
-    for(int cur = 2; cur <= n; cur += 2){
+    int step = n / MOST_TESTS;
+
+    for(int cur = 2; cur <= n; cur += step){
         //allocate matrices
         A = new int*[cur];
         B = new int*[cur];
@@ -115,26 +141,22 @@ void Graph::plot(int** (*f)(int**,int**,int)){
         int time = SDL_GetTicks();
         C = f(A,B,cur);
         time = SDL_GetTicks() - time; 
+        cout << cur << ',' << time << endl;
 
-
+        //adjust y if new maxTime
+        if(time > maxTime){
+            prevMax = maxTime;
+            maxTime = time + 20;
+        }
         int normX = origin.x + (double)size.x * ((double)cur / (double)n);
         int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
         plotter->plotPixel(normX, normY, c.r, c.g, c.b);
 
-        //adjust y for the new maxTime
-        if(time > maxTime){
-            prevMax = maxTime;
-            maxTime = time;
-            redraw();
-        }
-        else{
-            Line l(Point(prevX, prevY),Point(normX, normY));
-            l.draw(*plotter);
-        }
         prevX = normX;
         prevY = normY;
-        points.back().push_back(Point(prevX,prevY));
-        times.back().push_back(time);
+        points[f].push_back(Point(prevX,prevY));
+        times[f].push_back(time);
+        redraw();
 
         plotter->update();
 
