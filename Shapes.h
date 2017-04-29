@@ -9,12 +9,16 @@
 
 class Point {
 public:
+    int x;
+    int y;
+    Color color = COLOR::BLACK;
+
     Point();
     Point(int, int);
     Point(const Point&);
-
-    int x;
-    int y;
+    bool operator==(const Point &other) const;
+    void setColor(Color color);
+    void draw(SDL_Plotter&);
 };
 
 class Line {

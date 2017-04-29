@@ -24,6 +24,8 @@ int main(int argc, char ** argv)
 
     SDL_Plotter g(WINDOW_HEIGHT, WINDOW_WIDTH);
 
+
+
     Point origin(100,700);
     Point graphSize(700,600);
     int n = 100;
@@ -44,6 +46,22 @@ int main(int argc, char ** argv)
 
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
+
+        Font f(25);
+
+
+    f.drawString(g, Point(700, 500), "this is a test(");
+
+    f.setColor(COLOR::GREEN);
+    f.drawString(g, Point(700, 600), "this is a test");
+
+
+    bool equals = Point(0,0) == Point(0,0);
+    Point(350,350).draw(g);
+
+    cout << equals << endl;
+
+    g.update();
 
     while(!g.getQuit()){
         g.update();

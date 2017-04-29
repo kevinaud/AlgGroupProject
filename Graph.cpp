@@ -29,6 +29,7 @@ Graph::Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size){
 }
 
 void Graph::drawAxis(Color c){
+
     Point topLeft(origin.x,origin.y - size.y);
     Point bottomRight(origin.x + size.x, origin.y);
     Point topRight(origin.x + size.x, origin.y - size.y);
@@ -43,6 +44,11 @@ void Graph::drawAxis(Color c){
     yAxis.setColor(c);
     //top.setColor(COLOR::GREEN);
     //right.setColor(c);
+
+    const int FONT_SIZE = 25;
+    Font f(FONT_SIZE);
+
+    f.drawString(*plotter, Point(topLeft.x - 100, topLeft.y - FONT_SIZE - 5), "Y (time");
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
@@ -116,7 +122,7 @@ void Graph::setNLoc(Point nl){
 
 void Graph::plot(MatrixMultFunc f){
     srand(SDL_GetTicks());
-    
+
     int **A, **B, **C;
 
     int prevX = origin.x;
@@ -148,8 +154,8 @@ void Graph::plot(MatrixMultFunc f){
         //time algorithm
         int time = SDL_GetTicks();
         C = f(A,B,cur);
-        time = SDL_GetTicks() - time; 
-        //cout << cur << ',' << time << endl;
+        time = SDL_GetTicks() - time;
+        cout << cur << ',' << time << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)

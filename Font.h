@@ -9,6 +9,7 @@
 class Font {
 private:
     map<char, vector<Line> > chars;
+    Color color = COLOR::BLACK;
     int size;
 public:
 
@@ -191,6 +192,12 @@ public:
 
         chars[':'].push_back(Line(Point(middle,(size / 3) * 2), Point(middle - 1,(size / 3) * 2)));
         chars[':'].push_back(Line(Point(middle,size / 3), Point(middle - 1,size / 3)));
+
+        chars['('].push_back(Line(Point(0,0), Point(0,0)));
+    }
+
+    void setColor(Color color) {
+        this->color = color;
     }
 
     int drawChar(SDL_Plotter& p, Point loc, char c) {
@@ -201,7 +208,13 @@ public:
             if (max(itr->p1.x, itr->p2.x) > maxX) {
                 maxX = max(itr->p1.x, itr->p2.x);
             }
-            itr->offsetDraw(p, loc);
+            if (itr->p1 == itr->p2) {
+                itr->p1.setColor(color);
+                itr->p1.draw(p);
+            } else {
+                itr->setColor(color);
+                itr->offsetDraw(p, loc);
+            }
             itr++;
         }
         return loc.x + maxX;
@@ -225,7 +238,7 @@ public:
         string str;
         while(num){
             str.insert(0,1,(num % 10) + '0');
-            num /= 10; 
+            num /= 10;
         }
         drawString(p,loc,str);
     }
@@ -235,7 +248,7 @@ public:
         cout << "getting str(num)" << endl;
         while(num){
             str.insert(0,1,(num % 10) + '0');
-            num /= 10; 
+            num /= 10;
         }
         cout << "adding label" << endl;
         str = label + str;

@@ -17,6 +17,18 @@ Point::Point(const Point& p) {
     y = p.y;
 }
 
+void Point::setColor(Color color) {
+    this->color = color;
+}
+
+void Point::draw(SDL_Plotter& p) {
+    p.plotPixel(x, y, color.r, color.g, color.b);
+}
+
+bool Point::operator==(const Point &other) const {
+    return this->x == other.x && this->y == other.y;
+}
+
 Line::Line(Point p1, Point p2) {
     this->p1 = p1;
     this->p2 = p2;
