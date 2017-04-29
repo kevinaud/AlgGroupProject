@@ -47,17 +47,11 @@ int main(int argc, char ** argv)
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
-<<<<<<< HEAD
     DataPoint d(Point(12,300), Point(800, 400));
     d.draw(g, font, 4);
 
     Circle c(origin,3);
     c.draw(g);
-=======
-
-    //Circle c(origin,10);
-    //c.draw(g);
->>>>>>> f27258039c6a16a7920ef730eb73fd35355608d9
 
     g.update();
 
