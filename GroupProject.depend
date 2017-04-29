@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1493419492 source:h:\c++\groupproject\groupproject\main.cpp
+1493425918 source:h:\c++\groupproject\groupproject\main.cpp
 	<iostream>
 	"SDL_Plotter.h"
 	"Shapes.h"
@@ -13,9 +13,11 @@
 	<string.h>
 	<map>
 
-1493420246 h:\c++\groupproject\groupproject\shapes.h
+1493424605 h:\c++\groupproject\groupproject\shapes.h
+	<algorithm>
+	<cmath>
 	"SDL_Plotter.h"
 
-1493420247 source:h:\c++\groupproject\groupproject\shapes.cpp
+1493425933 source:h:\c++\groupproject\groupproject\shapes.cpp
 	"Shapes.h"
 

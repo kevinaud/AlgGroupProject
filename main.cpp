@@ -8,11 +8,21 @@ using namespace std;
 int main(int argc, char ** argv)
 {
 
-    SDL_Plotter g(1000,1000);
+    SDL_Plotter g(800, 1280);
 
-    Line line(30, 30, 70, 70);
-    line.draw(g, 5);
+    Line line1(100, 700, 1180, 700);
+    line1.draw(g, 5);
+
+    Line line2(50, 100, 200, 600);
+    line2.draw(g, 5);
+
+    //Line line2(100, 700, 100, 100);
+    //line2.draw(g, 5);
     g.update();
+
+    while(!g.getQuit()) {
+
+    }
 
     /*int x,y, xd, yd;
     int R,G,B;
