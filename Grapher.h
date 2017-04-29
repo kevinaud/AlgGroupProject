@@ -3,11 +3,13 @@
 
 #include <ctime>
 #include <cstdlib>
+#include "SDL_Plotter.h"
 
 class Grapher{
 public:
-	Grapher(int n, int w, int h, int x, int y);
+	Grapher(SDL_Plotter *p, int n, int w, int h, int x, int y);
     void plot(int** (*f)(int**,int**,int));
+    void test();
 private:
 	int** (*func)(int**,int**,int);
     int n,
@@ -15,6 +17,7 @@ private:
         y,
         w,
         h;
+    SDL_Plotter *plotter;
 };
 
 #endif

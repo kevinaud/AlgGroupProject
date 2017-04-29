@@ -1,16 +1,27 @@
 #include "Grapher.h"
+#include <unistd.h>
 
 //DEBUGGING
 #include <iostream>
 using namespace std;
 //DEBUGGING
 
-Grapher::Grapher(int n, int w, int h, int x, int y){
+int ** testFunc(int **A, int **B, int dim){
+    sleep(2 * dim);
+    return new int*[1];
+}
+
+void Grapher::test(){
+    plot(&testFunc);
+}
+
+Grapher::Grapher(SDL_Plotter *p, int n, int w, int h, int x, int y){
     this->n = n;	
     this->x = x;
     this->y = y;
     this->w = w;
     this->h = h;
+    plotter = p;
 }
 
 void Grapher::plot(int** (*f)(int**,int**,int)){
@@ -35,7 +46,6 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
             }
         }
 
-
         //time algorithm
         time_t start = time(NULL);
         C = f(A,B,cur);
@@ -49,11 +59,10 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
         for(int i = 0; i < cur; i++){
             delete A[i];
             delete B[i];
-            delete C[i];
+            //delete C[i];
         }
         delete A;
         delete B;
         delete C;
     }
-
 }
