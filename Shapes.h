@@ -27,6 +27,7 @@ public:
     Color color = Color(0, 0, 0);
 
     void draw(SDL_Plotter&);
+    void offsetDraw(SDL_Plotter&, Point);
 
     void setColor(Color color);
     void setStroke(int);

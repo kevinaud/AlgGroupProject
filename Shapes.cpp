@@ -31,6 +31,10 @@ void Line::setStroke(int stroke) {
 }
 
 void Line::draw(SDL_Plotter& p) {
+    offsetDraw(p, Point(0, 0));
+}
+
+void Line::offsetDraw(SDL_Plotter& p, Point loc) {
 
     int dx = p2.x - p1.x;
     int dy = p2.y - p1.y;
@@ -45,8 +49,8 @@ void Line::draw(SDL_Plotter& p) {
     double Xinc = (double)dx / (double)numSteps;
     double Yinc = (double)dy / (double)numSteps;
 
-    double x = (double)p1.x;
-    double y = (double)p1.y;
+    double x = (double)p1.x + loc.x;
+    double y = (double)p1.y + loc.y;
 
     for(int i = 0; i < numSteps; i++) {
         x = x + Xinc;
