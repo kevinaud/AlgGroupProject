@@ -51,4 +51,19 @@ public:
     void setColor(Color);
 };
 
+class Circle{
+public:
+    Circle(Point,int);
+
+    Point center;
+    int radius;
+    bool filled;
+    Color color = COLOR::BLACK;
+
+    void draw(SDL_Plotter&);
+
+    void setColor(Color);
+
+};
+
 #endif // SHAPES_H_INCLUDED

@@ -94,19 +94,34 @@ void Rectangle::setColor(Color color) {
     this->color = color;
 }
 
+Circle::Circle(Point c, int r){
+    center = c;
+    radius = r;
+    filled = true;
+}
 
+void Circle::draw(SDL_Plotter &p){
 
+    for(double y = 0; y < radius; y += 1.0){
+        int x = sqrt(radius * radius - y * y);
 
+        if(filled){
+            Line bottom(Point(center.x + x, center.y + y), Point(center.x - x, center.y + y));
+            bottom.setColor(color);
+            bottom.draw(p);
+            Line top(Point(center.x + x, center.y - y), Point(center.x - x, center.y - y));
+            top.setColor(color);
+            top.draw(p);
+        }
+        else{
+            p.plotPixel(center.x + x,center.y + y, color.r, color.g, color.b);
+            p.plotPixel(center.x - x,center.y + y, color.r, color.g, color.b);
+            p.plotPixel(center.x + x,center.y - y, color.r, color.g, color.b);
+            p.plotPixel(center.x - x,center.y - y, color.r, color.g, color.b);
+        }
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+void Circle::setColor(Color c){
+    color = c;
+}
