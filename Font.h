@@ -187,6 +187,8 @@ public:
         chars['z'].push_back(Line(Point(0,0), Point(middle,0)));
         chars['z'].push_back(Line(Point(middle,0), Point(0, size)));
         chars['z'].push_back(Line(Point(0,size), Point(middle,size)));
+
+        chars['('].push_back(Line(Point(0,0), Point(0,0)));
     }
 
     void setColor(Color color) {
@@ -200,8 +202,13 @@ public:
             if (max(itr->p1.x, itr->p2.x) > maxX) {
                 maxX = max(itr->p1.x, itr->p2.x);
             }
-            itr->setColor(color);
-            itr->offsetDraw(p, loc);
+            if (itr->p1 == itr->p2) {
+                itr->p1.setColor(color);
+                itr->p1.draw(p);
+            } else {
+                itr->setColor(color);
+                itr->offsetDraw(p, loc);
+            }
             itr++;
         }
         return loc.x + maxX;
@@ -225,7 +232,7 @@ public:
         string str;
         while(num){
             str.insert(0,1,(num % 10) + '0');
-            num /= 10; 
+            num /= 10;
         }
         cout << "drawing int: " << str << endl;
         drawString(p,loc,str);

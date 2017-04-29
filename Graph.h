@@ -9,7 +9,7 @@
 #include "Font.h"
 #include "SDL_Plotter.h"
 
-typedef int**(*MatrixMultFunc)(int**,int**,int); 
+typedef int**(*MatrixMultFunc)(int**,int**,int);
 
 class Graph{
 public:
