@@ -26,8 +26,7 @@ public:
 private:
 	MatrixMultFunc func;
     int n,
-        maxTime,
-        prevMax;
+        maxTime;
     Point origin,
           size,
           nloc;

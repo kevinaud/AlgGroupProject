@@ -57,7 +57,7 @@ void Graph::test(){
 void Graph::redraw(){
     plotter->clear();
     if(nloc.x > -1 && nloc.y > -1)
-        font->drawInt(*plotter,nloc,n);
+        font->drawLabeledInt(*plotter,nloc,"N ",n);
     drawAxis();
     //recalculate y based on maxTime
     for(auto j : points){
@@ -78,11 +78,25 @@ void Graph::redraw(){
 }
 
 void Graph::clear(){
-    prevMax = START_MAX_TIME;
     maxTime = START_MAX_TIME;
     plotter->clear();
     points.clear();
     times.clear();
+    redraw();
+}
+
+void Graph::clear(MatrixMultFunc f){
+    points.erase(f);
+    times.erase(f);
+
+    cout << "max: " << maxTime << endl;
+    //find new maxTime
+    maxTime = START_MAX_TIME;
+    for(auto t : times)
+        for(int k = 0; k < t.second.size(); k++)
+            maxTime = max(maxTime,t.second[k]);
+    cout << "newMax: " << maxTime << endl;
+
     redraw();
 }
 
@@ -97,12 +111,6 @@ void Graph::setN(int n){
 
 void Graph::setNLoc(Point nl){
     nloc = nl;
-    redraw();
-}
-
-void Graph::clear(MatrixMultFunc f){
-    points.erase(f);
-    times.erase(f);
     redraw();
 }
 
@@ -141,13 +149,11 @@ void Graph::plot(MatrixMultFunc f){
         int time = SDL_GetTicks();
         C = f(A,B,cur);
         time = SDL_GetTicks() - time; 
-        cout << cur << ',' << time << endl;
+        //cout << cur << ',' << time << endl;
 
         //adjust y if new maxTime
-        if(time > maxTime){
-            prevMax = maxTime;
+        if(time > maxTime)
             maxTime = time + 20;
-        }
         int normX = origin.x + (double)size.x * ((double)cur / (double)n);
         int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
         plotter->plotPixel(normX, normY, c.r, c.g, c.b);
