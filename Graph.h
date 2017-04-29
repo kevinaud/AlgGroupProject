@@ -37,4 +37,12 @@ private:
     map<MatrixMultFunc,vector<int> > times;
 };
 
+class DataPoint {
+public:
+    Point data;
+    Point loc;
+    DataPoint(Point, Point);
+
+    void draw(SDL_Plotter&, Font, int);
+};
 #endif

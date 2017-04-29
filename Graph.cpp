@@ -48,7 +48,10 @@ void Graph::drawAxis(Color c){
     const int FONT_SIZE = 25;
     Font f(FONT_SIZE);
 
-    f.drawString(*plotter, Point(topLeft.x - 100, topLeft.y - FONT_SIZE - 5), "Y (time");
+    f.drawString(*plotter, Point(topLeft.x - 75, topLeft.y - FONT_SIZE - 5), "Y(time)");
+
+    Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
+    f.drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + FONT_SIZE + 40), "X(matrix size)");
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
@@ -183,3 +186,48 @@ void Graph::plot(MatrixMultFunc f){
         delete C;
     }
 }
+
+DataPoint::DataPoint(Point data, Point loc) {
+    this->data = data;
+    this->loc = loc;
+}
+
+void DataPoint::draw(SDL_Plotter& p, Font f, int radius) {
+    Point textLoc(loc.x - 75, loc.y + radius + 10);
+
+    string result = "(";
+
+    string str;
+    int num = data.x;
+    while(num){
+        str.insert(0,1,(num % 10) + '0');
+        num /= 10;
+    }
+
+    result = result + str;
+    result = result + ",";
+
+    num = data.y;
+    str = "";
+    while(num){
+        str.insert(0,1,(num % 10) + '0');
+        num /= 10;
+    }
+
+    result = result + str;
+    result = result + ")";
+
+    f.drawString(p, textLoc, result);
+}
+
+
+
+
+
+
+
+
+
+
+
+
