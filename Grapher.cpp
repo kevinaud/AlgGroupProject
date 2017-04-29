@@ -7,21 +7,24 @@ using namespace std;
 //DEBUGGING
 
 int ** testFunc(int **A, int **B, int dim){
-    sleep(2 * dim);
+    SDL_Delay(10 * dim);
     return new int*[1];
+}
+
+Grapher::Grapher(SDL_Plotter *p, int n, int x, int y){
+    this->n = n;	
+    this->x = x;
+    this->y = y;
+    plotter = p;
+    c = COLOR::BLACK;
 }
 
 void Grapher::test(){
     plot(&testFunc);
 }
 
-Grapher::Grapher(SDL_Plotter *p, int n, int w, int h, int x, int y){
-    this->n = n;	
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
-    plotter = p;
+void Grapher::setColor(Color c){
+    this->c = c;
 }
 
 void Grapher::plot(int** (*f)(int**,int**,int)){
@@ -47,13 +50,14 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
         }
 
         //time algorithm
-        time_t start = time(NULL);
+        int start = SDL_GetTicks();
         C = f(A,B,cur);
-        time_t end = time(NULL);
-        cout << "coord" << endl
-             << end - start << "," << cur << endl
-             << "pos" << endl
-             << (end - start) / h << ',' << cur / w << endl;
+        int end = SDL_GetTicks(); 
+        int time = end - start;
+        cout << x << ',' << y << endl;
+        cout << "time " << time << endl;
+        cout << "drawing " << x + (cur * 10) << ',' << y - time << endl;
+        plotter->plotPixel(x + (10 * cur) , y - time, c.r, c.g, c.b);
 
         //free matrices
         for(int i = 0; i < cur; i++){

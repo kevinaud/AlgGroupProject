@@ -3,6 +3,7 @@
 #include "SDL_Plotter.h"
 #include "Shapes.h"
 #include "Color.h"
+#include "Grapher.h"
 
 using namespace std;
 
@@ -24,14 +25,17 @@ int main(int argc, char ** argv)
     r.setColor(COLOR::BLUE);
     r.draw(g);
 
-    g.update();
+    Grapher graph(&g, 100, 100, 700);
 
-    while(!g.getQuit()) {
-
+    while(!g.getQuit()){
+        g.update();
+    	if(g.kbhit())
+    	    g.getKey();
     }
 
     /*int x,y, xd, yd;
     int R,G,B;
+
 
     while (!g.getQuit())
     {

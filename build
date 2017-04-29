@@ -1,1 +1,1 @@
-g++ -g *.cpp -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer
+g++ -g *.cpp -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer --std=c++11
