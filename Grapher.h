@@ -3,13 +3,16 @@
 
 #include <ctime>
 #include <cstdlib>
+#include "Color.h"
+#include "Shapes.h"
 #include "SDL_Plotter.h"
 
 class Grapher{
 public:
-	Grapher(SDL_Plotter *p, int n, int w, int h, int x, int y);
+	Grapher(SDL_Plotter *p, int n, Point origin, Point size);
     void plot(int** (*f)(int**,int**,int));
     void test();
+    void setColor(Color);
 private:
 	int** (*func)(int**,int**,int);
     int n,
@@ -18,6 +21,7 @@ private:
         w,
         h;
     SDL_Plotter *plotter;
+    Color c;
 };
 
 #endif

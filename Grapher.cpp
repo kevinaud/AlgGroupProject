@@ -1,5 +1,6 @@
 #include "Grapher.h"
-#include <unistd.h>
+
+#define MAX_TIME 200.0
 
 //DEBUGGING
 #include <iostream>
@@ -7,21 +8,29 @@ using namespace std;
 //DEBUGGING
 
 int ** testFunc(int **A, int **B, int dim){
-    sleep(2 * dim);
-    return new int*[1];
+    SDL_Delay(10 * dim);
+    int ** c = new int*[dim];
+    for(int i = 0; i < dim; i++)
+        c[i] = new int[dim];
+    return c;
+}
+
+Grapher::Grapher(SDL_Plotter *p, int n, Point origin, Point size){
+    this->n = n;	
+    this->x = origin.x;
+    this->y = origin.y;
+    this->w = size.x;
+    this->h = size.y;
+    plotter = p;
+    c = COLOR::BLACK;
 }
 
 void Grapher::test(){
     plot(&testFunc);
 }
 
-Grapher::Grapher(SDL_Plotter *p, int n, int w, int h, int x, int y){
-    this->n = n;	
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
-    plotter = p;
+void Grapher::setColor(Color c){
+    this->c = c;
 }
 
 void Grapher::plot(int** (*f)(int**,int**,int)){
@@ -29,7 +38,9 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
     
     int **A, **B, **C;
 
-    for(int cur = 2; cur < n; cur += 2){
+    int prevX = x;
+    int prevY = y;
+    for(int cur = 2; cur <= n; cur += 2){
         //allocate matrices
         A = new int*[cur];
         B = new int*[cur];
@@ -47,19 +58,30 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
         }
 
         //time algorithm
-        time_t start = time(NULL);
+        int start = SDL_GetTicks();
         C = f(A,B,cur);
-        time_t end = time(NULL);
-        cout << "coord" << endl
-             << end - start << "," << cur << endl
-             << "pos" << endl
-             << (end - start) / h << ',' << cur / w << endl;
+        int end = SDL_GetTicks(); 
+        int time = end - start;
+
+        cout << "time: " << time << endl;
+
+        int normX = x + (double)w * ((double)cur / (double)n);
+        int normY = y - (double)h * ((double)time / (double)MAX_TIME);
+        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
+
+        Line l(Point(prevX, prevY),Point(normX, normY));
+        l.draw(*plotter);
+
+        prevX = normX;
+        prevY = normY;
+
+        plotter->update();
 
         //free matrices
         for(int i = 0; i < cur; i++){
             delete A[i];
             delete B[i];
-            //delete C[i];
+            delete C[i];
         }
         delete A;
         delete B;

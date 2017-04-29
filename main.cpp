@@ -4,6 +4,7 @@
 #include "Shapes.h"
 #include "Color.h"
 #include "Font.h"
+#include "Grapher.h"
 
 using namespace std;
 
@@ -12,38 +13,36 @@ int main(int argc, char ** argv)
 
     SDL_Plotter g(800, 1280);
 
+    Point origin(100,700);
+    Point size(700,600);
+    Point topLeft(origin.x,origin.y - size.y);
+    Point bottomRight(origin.x + size.x, origin.y);
+    Point topRight(origin.x + size.x, origin.y - size.y);
 
-    Font f(65);
+    Color outlineColor = COLOR::BLUE;
+    Line xAxis(origin, bottomRight);
+    Line yAxis(origin, topLeft);
+    Line top(topLeft, topRight);
+    Line right(topRight, bottomRight);
 
-    f.drawString(g, Point(200, 600), "fuck you jack");
+    xAxis.setColor(outlineColor);
+    yAxis.setColor(outlineColor);
+    top.setColor(outlineColor);
+    right.setColor(outlineColor);
 
-    g.update();
+    xAxis.draw(g);
+    yAxis.draw(g);
+    top.draw(g);
+    right.draw(g);
 
-    while(!g.getQuit()) {
+    Grapher graph(&g, 10, origin, size);
+    graph.test();
 
+    while(!g.getQuit()){
+        g.update();
+    	if(g.kbhit())
+    	    g.getKey();
     }
 
-
-    /*int x,y, xd, yd;
-    int R,G,B;
-
-    while (!g.getQuit())
-    {
-    	x = rand()%g.getCol();
-    	y = rand()%g.getRow();
-    	R = rand()%256;
-    	G = rand()%256;
-    	B = rand()%256;
-    	for(xd = 0; xd < 2 && x + xd < g.getCol(); xd++ ){
-    		for(yd = 0; yd < 2 && y + yd < g.getRow(); yd++ ){
-    	    	g.plotPixel( x + xd, y + yd, R, G, B);
-    	    	g.plotPixel( x + xd, y + yd, 0, G, 0);
-    		}
-    	}
-    	g.update();
-    	if(g.kbhit()){
-    	    g.getKey();
-    	}
-    }*/
     return 0;
 }

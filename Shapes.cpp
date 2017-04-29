@@ -1,4 +1,7 @@
 #include "Shapes.h"
+
+#include <cassert>
+
 Point::Point() {
     x = 0;
     y = 0;
@@ -43,8 +46,8 @@ void Line::offsetDraw(SDL_Plotter& p, Point loc) {
        numSteps = abs(dy);
     }
 
-    double Xinc = (1.0 * dx) / numSteps;
-    double Yinc = (1.0 * dy) / numSteps;
+    double Xinc = (double)dx / (double)numSteps;
+    double Yinc = (double)dy / (double)numSteps;
 
     double x = (double)p1.x + loc.x;
     double y = (double)p1.y + loc.y;
