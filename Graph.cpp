@@ -215,10 +215,11 @@ DataPoint::DataPoint(Point data, Point loc) {
 }
 
 void DataPoint::draw(SDL_Plotter& p, Font f, int radius) {
-    Point textLoc(loc.x - 75, loc.y + radius + 10);
+    Point textLoc(loc.x - 75, loc.y - radius - f.getSize() - 10);
+    Circle c(loc,radius);
+    c.draw(p);
 
     string result = "(";
-
     string str;
     int num = data.x;
     while(num){
