@@ -12,6 +12,7 @@
 #define MATRIX_MULT
 
 #include <cstdlib>
+#define HAVE_STRUCT_TIMESPEC
 #include <pthread.h>
 #define PAD 1
 
