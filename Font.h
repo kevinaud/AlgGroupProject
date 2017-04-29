@@ -193,7 +193,22 @@ public:
         chars[':'].push_back(Line(Point(middle,(size / 3) * 2), Point(middle - 1,(size / 3) * 2)));
         chars[':'].push_back(Line(Point(middle,size / 3), Point(middle - 1,size / 3)));
 
-        chars['('].push_back(Line(Point(0,0), Point(0,0)));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),0), Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5)), Point((int)(((size * 4.0) / 17) + 0.5), size)));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5)),Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5))));
+
+        chars[')'].push_back(Line(Point(0,0), Point(0,(int)(((size * 2.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point(0,(int)(((size * 15.0) / 17) + 0.5)), Point(0, size)));
+        chars[')'].push_back(Line(Point(0,(int)(((size * 1.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5)),Point(0,(int)(((size * 16.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5))));
+
+        chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)), Point((int)(((size * 0.0)/ 7.0) + 0.5),(int)(((size * 8.0)/ 7.0) + 0.5))));
     }
 
     void setColor(Color color) {
@@ -201,9 +216,14 @@ public:
     }
 
     int drawChar(SDL_Plotter& p, Point loc, char c) {
-        cout << "drawing " << (int)c << ' ' << loc.x << ',' << loc.y << endl;
         vector<Line>::iterator itr = chars[c].begin();
         int maxX = max(itr->p1.x, itr->p2.x);
+
+        //erase background
+        Rectangle r(loc,size + 2,size + 2);
+        r.setColor(COLOR::WHITE);
+        r.draw(p);
+
         while(itr != chars[c].end()) {
             if (max(itr->p1.x, itr->p2.x) > maxX) {
                 maxX = max(itr->p1.x, itr->p2.x);
@@ -245,16 +265,12 @@ public:
 
     void drawLabeledInt(SDL_Plotter &p, Point loc, string label, int num){
         string str;
-        cout << "getting str(num)" << endl;
         while(num){
             str.insert(0,1,(num % 10) + '0');
             num /= 10;
         }
-        cout << "adding label" << endl;
         str = label + str;
-        cout << "drawing " << str << endl;
         drawString(p,loc,str);
-        cout << "drawn" << endl;
     }
 };
 

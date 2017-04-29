@@ -48,6 +48,8 @@ int main(int argc, char ** argv)
     graph.setNLoc(Point(1000, 650));
 
 
+    //Circle c(origin,10);
+    //c.draw(g);
 
     g.update();
 
@@ -96,7 +98,7 @@ int main(int argc, char ** argv)
                 if(on[2]){
                     f.setColor(COLOR::BLUE);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
-                    //graph.plot(&Strassen);
+                    graph.plot(&Strassen);
                 }
                 else{
                     f.setColor(COLOR::BLACK);

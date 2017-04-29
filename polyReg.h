@@ -6,7 +6,7 @@ void gaussJordan(double** A, int n);
 void multRow(double** A, int r, int n, double val);
 void rowAdd(double **A, int r1, int r2, int n, double multFact);
 void choosePivot(double** A, int r, int n);
-double** notSquareMatMult(double** A, double**B, int r, int c);
+double** notSquareMatMult(double** A, double**B, int firstD, int middleD, int lastD);
 
 double ** polyReg(int* x, int* y, int n, int deg){
 
@@ -26,7 +26,7 @@ double ** polyReg(int* x, int* y, int n, int deg){
     double** zT = matTranspose(z,n,deg);
     double** A1 = notSquareMatMult(zT,z, deg, n, deg);
     delete []z;
-    double** A2 = notSquareMatMult(zT,deg,n,1);
+    double** A2 = notSquareMatMult(zT,Y,deg,n,1);
 }
 
 double** matTranspose(double** A, int r, int c){
@@ -83,10 +83,10 @@ void rowAdd(double **A, int r1, int r2, int n, double multFact){
 
 double** notSquareMatMult(double** A, double**B, int firstD, int middleD, int lastD){
 
-    int** C = new int*[firstD];
+    double** C = new double*[firstD];
     for(int i = 0; i < firstD; i++){
-        C[i] = new int[lastD];
-        for(int j = 0; j < c; j++){
+        C[i] = new double[lastD];
+        for(int j = 0; j < lastD; j++){
             C[i][j] = 0;
         }
     }
