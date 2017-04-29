@@ -68,6 +68,7 @@ void Graph::drawAxis(){
     yAxis.draw(*plotter);
 }
 
+
 void Graph::test(){
     plot(&testFunc);
 }
@@ -110,7 +111,7 @@ void Graph::redraw(){
     for(auto j : points){
         for(int k = 1; k < j.second.size(); k++){
             Line l(j.second[k - 1],j.second[k]);
-            l.setColor(c);
+            l.setColor(colors[j.first]);
             l.draw(*plotter);
         }
     }
@@ -121,6 +122,7 @@ void Graph::clear(){
     erase();
     points.clear();
     times.clear();
+    colors.clear();
     redraw();
 }
 
@@ -130,6 +132,7 @@ void Graph::clear(MatrixMultFunc f){
 
         points.erase(f);
         times.erase(f);
+        colors.erase(f);
 
         cout << "max: " << maxTime << endl;
         //find new maxTime
@@ -157,7 +160,7 @@ void Graph::setNLoc(Point nl){
     redraw();
 }
 
-void Graph::plot(MatrixMultFunc f){
+void Graph::plot(MatrixMultFunc f, Color color){
     srand(SDL_GetTicks());
 
     int **A, **B, **C;
@@ -166,6 +169,7 @@ void Graph::plot(MatrixMultFunc f){
     int prevY = origin.y;
 
     clear(f);
+    colors[f] = color;
     points[f].push_back(Point(prevX,prevY));
     times[f].push_back(0);
 
@@ -257,15 +261,4 @@ void DataPoint::draw(SDL_Plotter& p, Font f, int radius) {
 
     f.drawString(p, textLoc, result);
 }
-
-
-
-
-
-
-
-
-
-
-
 

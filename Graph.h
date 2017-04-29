@@ -15,7 +15,7 @@ class Graph{
 public:
 	Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size);
     void drawAxis();
-    void plot(MatrixMultFunc);
+    void plot(MatrixMultFunc f, Color color = COLOR::BLACK);
     void test();
     void erase(MatrixMultFunc f = NULL);
     void redraw();
@@ -35,6 +35,7 @@ private:
     Color c;
     Color eraser;
     Font *font;
+    map<MatrixMultFunc,Color> colors;
     map<MatrixMultFunc,vector<Point> > points;
     map<MatrixMultFunc,vector<int> > times;
 };

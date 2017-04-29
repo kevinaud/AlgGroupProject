@@ -20,9 +20,6 @@ double * polyReg(int* x, int* y, int n, int deg){
         Y[i][0] = y[i];
     }
 
-
-
-
     double** zT = matTranspose(z,n,deg);
     double** A1 = notSquareMatMult(zT,z, deg, n, deg);
     delete []z;
