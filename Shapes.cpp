@@ -38,6 +38,10 @@ void Line::setStroke(int stroke) {
     this->stroke = stroke;
 }
 
+void Line::setColor(Color color) {
+    this->color = color;
+}
+
 void Line::draw(SDL_Plotter& p) {
     offsetDraw(p, Point(0, 0));
 }
