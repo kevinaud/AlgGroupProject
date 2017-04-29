@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 
     Point origin(100,700);
     Point graphSize(700,600);
-    int n = 500;
+    int n = 100;
     char key;
     Font font(30);
 
@@ -80,9 +80,7 @@ int main(int argc, char ** argv)
                     break;
 
                 case 'D':
-                    cout << "divide and conquer...";
                     graph.plot(&matrixMultDivideAndConquer);
-                    cout << "!" << endl;
                     break;
             }
         }

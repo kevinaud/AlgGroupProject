@@ -188,6 +188,11 @@ public:
         chars['z'].push_back(Line(Point(middle,0), Point(0, size)));
         chars['z'].push_back(Line(Point(0,size), Point(middle,size)));
 
+        chars[' '] = vector<Line>();
+
+        chars[':'].push_back(Line(Point(middle,(size / 3) * 2), Point(middle - 1,(size / 3) * 2)));
+        chars[':'].push_back(Line(Point(middle,size / 3), Point(middle - 1,size / 3)));
+
         chars['('].push_back(Line(Point(0,0), Point(0,0)));
     }
 
@@ -196,6 +201,7 @@ public:
     }
 
     int drawChar(SDL_Plotter& p, Point loc, char c) {
+        cout << "drawing " << (int)c << ' ' << loc.x << ',' << loc.y << endl;
         vector<Line>::iterator itr = chars[c].begin();
         int maxX = max(itr->p1.x, itr->p2.x);
         while(itr != chars[c].end()) {
@@ -234,10 +240,22 @@ public:
             str.insert(0,1,(num % 10) + '0');
             num /= 10;
         }
-        cout << "drawing int: " << str << endl;
         drawString(p,loc,str);
     }
 
+    void drawLabeledInt(SDL_Plotter &p, Point loc, string label, int num){
+        string str;
+        cout << "getting str(num)" << endl;
+        while(num){
+            str.insert(0,1,(num % 10) + '0');
+            num /= 10;
+        }
+        cout << "adding label" << endl;
+        str = label + str;
+        cout << "drawing " << str << endl;
+        drawString(p,loc,str);
+        cout << "drawn" << endl;
+    }
 };
 
 #endif
