@@ -24,11 +24,15 @@
 1493440434 source:h:\c++\groupproject\groupproject\shapes.cpp
 	"Shapes.h"
 
-1493425255 source:h:\algorithms_project\alggroupproject\shapes.cpp
+1493447475 source:h:\algorithms_project\alggroupproject\shapes.cpp
 	"Shapes.h"
+	<cassert>
 
-1493425255 h:\algorithms_project\alggroupproject\shapes.h
+1493447475 h:\algorithms_project\alggroupproject\shapes.h
+	<algorithm>
+	<cmath>
 	"SDL_Plotter.h"
+	"Color.h"
 
 1493425255 h:\algorithms_project\alggroupproject\sdl_plotter.h
 	<SDL2/SDL.h>
@@ -39,11 +43,14 @@
 	<string.h>
 	<map>
 
-1493446868 source:h:\algorithms_project\alggroupproject\main.cpp
+1493449722 source:h:\algorithms_project\alggroupproject\main.cpp
 	<iostream>
 	"SDL_Plotter.h"
 	"Shapes.h"
 	"DivideAndConquer.h"
+	"Color.h"
+	"Graph.h"
+	"Font.h"
 
 1493446942 h:\algorithms_project\alggroupproject\divideandconquer.h
 
@@ -53,4 +60,36 @@
 	<map>
 	<vector>
 	"Shapes.h"
+
+1493447475 h:\algorithms_project\alggroupproject\color.h
+
+1493447475 source:h:\algorithms_project\alggroupproject\grapher.cpp
+	"Grapher.h"
+	<iostream>
+
+1493447475 h:\algorithms_project\alggroupproject\grapher.h
+	<ctime>
+	<cstdlib>
+	"Color.h"
+	"Shapes.h"
+	"SDL_Plotter.h"
+
+1493447475 h:\algorithms_project\alggroupproject\font.h
+	<map>
+	<vector>
+	<algorithm>
+	"Shapes.h"
+
+1493449594 h:\algorithms_project\alggroupproject\graph.h
+	<ctime>
+	<cstdlib>
+	<vector>
+	"Color.h"
+	"Shapes.h"
+	"SDL_Plotter.h"
+
+1493449594 source:h:\algorithms_project\alggroupproject\graph.cpp
+	"Graph.h"
+	<iostream>
+	<cassert>
 
