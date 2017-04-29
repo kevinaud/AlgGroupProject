@@ -13,6 +13,13 @@ int main(int argc, char ** argv)
 
     SDL_Plotter g(800, 1280);
 
+    Font f(25);
+
+    f.drawString(g, Point(500, 500), "this is a test");
+
+    f.setColor(COLOR::GREEN);
+    f.drawString(g, Point(500, 600), "this is a test");
+
     Point origin(100,700);
     Point size(700,600);
     Point topLeft(origin.x,origin.y - size.y);

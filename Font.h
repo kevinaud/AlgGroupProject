@@ -9,6 +9,7 @@
 class Font {
 private:
     map<char, vector<Line> > chars;
+    Color color = COLOR::BLACK;
     int size;
 public:
 
@@ -188,6 +189,10 @@ public:
         chars['z'].push_back(Line(Point(0,size), Point(middle,size)));
     }
 
+    void setColor(Color color) {
+        this->color = color;
+    }
+
     int drawChar(SDL_Plotter& p, Point loc, char c) {
         vector<Line>::iterator itr = chars[c].begin();
         int maxX = max(itr->p1.x, itr->p2.x);
@@ -195,6 +200,7 @@ public:
             if (max(itr->p1.x, itr->p2.x) > maxX) {
                 maxX = max(itr->p1.x, itr->p2.x);
             }
+            itr->setColor(color);
             itr->offsetDraw(p, loc);
             itr++;
         }

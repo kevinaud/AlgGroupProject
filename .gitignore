@@ -1,5 +1,9 @@
 bin\
 obj\
+GroupProject.layout
+GroupProject.depend
+GroupProject.cbp
+*.o
 *.swp
 *.exe
 *.layout
