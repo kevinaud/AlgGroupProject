@@ -4,6 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include "Color.h"
+#include "Shapes.h"
 #include "SDL_Plotter.h"
 
 class Grapher{

@@ -1,5 +1,4 @@
 #include "Grapher.h"
-#include <unistd.h>
 
 //DEBUGGING
 #include <iostream>
@@ -8,7 +7,10 @@ using namespace std;
 
 int ** testFunc(int **A, int **B, int dim){
     SDL_Delay(10 * dim);
-    return new int*[1];
+    int ** c = new int*[dim];
+    for(int i = 0; i < dim; i++)
+        c[i] = new int[dim];
+    return c;
 }
 
 Grapher::Grapher(SDL_Plotter *p, int n, int x, int y){
@@ -32,6 +34,8 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
     
     int **A, **B, **C;
 
+    int prevX = -1;
+    int prevY = -1;
     for(int cur = 2; cur < n; cur += 2){
         //allocate matrices
         A = new int*[cur];
@@ -58,12 +62,20 @@ void Grapher::plot(int** (*f)(int**,int**,int)){
         cout << "time " << time << endl;
         cout << "drawing " << x + (cur * 10) << ',' << y - time << endl;
         plotter->plotPixel(x + (10 * cur) , y - time, c.r, c.g, c.b);
+        if(prevX > -1 && prevY > -1){
+            Line l(Point(prevX, prevY),Point(x + (10 * cur),y - time));
+            l.draw(*plotter);
+        }
+        prevX = x + (10 * cur);
+        prevY = y - time;
+
+        plotter->update();
 
         //free matrices
         for(int i = 0; i < cur; i++){
             delete A[i];
             delete B[i];
-            //delete C[i];
+            delete C[i];
         }
         delete A;
         delete B;

@@ -26,6 +26,7 @@ int main(int argc, char ** argv)
     r.draw(g);
 
     Grapher graph(&g, 100, 100, 700);
+    graph.test();
 
     while(!g.getQuit()){
         g.update();
@@ -33,27 +34,5 @@ int main(int argc, char ** argv)
     	    g.getKey();
     }
 
-    /*int x,y, xd, yd;
-    int R,G,B;
-
-
-    while (!g.getQuit())
-    {
-    	x = rand()%g.getCol();
-    	y = rand()%g.getRow();
-    	R = rand()%256;
-    	G = rand()%256;
-    	B = rand()%256;
-    	for(xd = 0; xd < 2 && x + xd < g.getCol(); xd++ ){
-    		for(yd = 0; yd < 2 && y + yd < g.getRow(); yd++ ){
-    	    	g.plotPixel( x + xd, y + yd, R, G, B);
-    	    	g.plotPixel( x + xd, y + yd, 0, G, 0);
-    		}
-    	}
-    	g.update();
-    	if(g.kbhit()){
-    	    g.getKey();
-    	}
-    }*/
     return 0;
 }
