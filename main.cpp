@@ -51,15 +51,24 @@ int main(int argc, char ** argv)
             char c = g.getKey();
             switch(c){
             case 'B':
-                f.drawString(g,Point(250,500), "Brute Force");
-                f.drawString(g,Point(250,500), "Brute Force");
+                on[0] = !on[0];
+                if(on[0]){
+                    f.setColor(COLOR::RED);
+                    f.drawString(g,Point(250,500), "Brute Force");
+                }
+                else{
+                    f.setColor(COLOR::BLACK);
+                    f.drawString(g,Point(250,500), "Brute Force");
+                }
                 break;
             case 'D':
                 cout << "divide and conquer...";
                 graph.plot(&matrixMultDivideAndConquer);
                 cout << "!" << endl;
-                break;
-                f.drawString(g,Point(250,500), "Divide And Conquer");
+                on[1] = !on[1];
+                if(on[1]){
+                    f.drawString(g,Point(250,500), "Divide And Conquer");
+                }
                 break;
             case 'S':
                 f.drawString(g,Point(250,500), "Strassen");
