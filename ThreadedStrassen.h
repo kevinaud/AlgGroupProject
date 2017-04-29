@@ -271,7 +271,7 @@ int** Strassen(int **A, int **B, int dim) {
         C[1][1] = A[1][0]*B[0][1]+A[1][1]*B[1][1]; 
     	return C;
 	}
-	cout << dim << endl;
+	
 	int** a = newMatrix(0, 0, A, dim);
 	int** b = newMatrix(0, dim/2, A, dim);
 	int** c = newMatrix(dim/2, 0, A, dim);
