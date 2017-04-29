@@ -3,6 +3,7 @@
 #include "SDL_Plotter.h"
 #include "Shapes.h"
 #include "Color.h"
+#include "Font.h"
 
 using namespace std;
 
@@ -11,24 +12,17 @@ int main(int argc, char ** argv)
 
     SDL_Plotter g(800, 1280);
 
-    Line line1(Point(100, 700), Point(1180, 700));
 
-    line1.setColor(COLOR::GREEN);
-    line1.setStroke(3);
-    line1.draw(g);
+    Font f(65);
 
-    Line line2(Point(100, 100), Point(100, 550));
-    line2.draw(g);
-
-    Rectangle r(Point(500, 500), 50, 50);
-    r.setColor(COLOR::BLUE);
-    r.draw(g);
+    f.drawString(g, Point(200, 600), "fuck you jack");
 
     g.update();
 
     while(!g.getQuit()) {
 
     }
+
 
     /*int x,y, xd, yd;
     int R,G,B;
