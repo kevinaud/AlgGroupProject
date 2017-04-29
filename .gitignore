@@ -3,6 +3,7 @@ obj\
 GroupProject.layout
 GroupProject.depend
 GroupProject.cbp
+kevin.cpp
 *.o
 *.swp
 *.exe
