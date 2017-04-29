@@ -1,0 +1,56 @@
+# depslib dependency file v1.0
+1493445954 source:h:\c++\groupproject\groupproject\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+	"Shapes.h"
+	"Color.h"
+	"Font.h"
+
+1493417992 h:\c++\groupproject\groupproject\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1493440292 h:\c++\groupproject\groupproject\shapes.h
+	<algorithm>
+	<cmath>
+	"SDL_Plotter.h"
+	"Color.h"
+
+1493440434 source:h:\c++\groupproject\groupproject\shapes.cpp
+	"Shapes.h"
+
+1493425255 source:h:\algorithms_project\alggroupproject\shapes.cpp
+	"Shapes.h"
+
+1493425255 h:\algorithms_project\alggroupproject\shapes.h
+	"SDL_Plotter.h"
+
+1493425255 h:\algorithms_project\alggroupproject\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1493446868 source:h:\algorithms_project\alggroupproject\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+	"Shapes.h"
+	"DivideAndConquer.h"
+
+1493446942 h:\algorithms_project\alggroupproject\divideandconquer.h
+
+1493429568 h:\c++\groupproject\groupproject\color.h
+
+1493446152 h:\c++\groupproject\groupproject\font.h
+	<map>
+	<vector>
+	"Shapes.h"
+
