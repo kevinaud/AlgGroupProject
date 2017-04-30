@@ -43,10 +43,8 @@ void Graph::drawAxis(){
     yAxis.setColor(c);
     yAxis.stroke = 3;
 
-    cout << "draw n" << endl;
     if(nloc.x > -1 || nloc.y > -1)
         font->drawLabeledInt(*plotter, nloc, "N ", n);
-    cout << "/draw n" << endl;
 
     font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Y(time)");
 
@@ -195,7 +193,6 @@ void Graph::plot(MatrixMultFunc f, Color color){
         C = f(A,B,cur);
         auto end = Clock::now();
         unsigned int time = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-        cout << time << "ns" << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)

@@ -10,7 +10,7 @@
 #include "polyReg.h"
 #include <ctime>
 
-#define MAX_N 500
+//#define MAX_N 500
 #define T1 2
 #define T2 4
 #define T3 10
@@ -111,18 +111,14 @@ int main(int argc, char ** argv)
                  f.drawString(g,Point(250,500), "Quit");
                 break;
             case UP_ARROW:
-                if(n <= MAX_N){
-                    if(n + T3 > MAX_N)
-                        n = MAX_N;
-                    else if(n < 20)
-                        n += T1;
-                    else if(n < 50)
-                        n += T2;
-                    else
-                        n += T3;
+                if(n < 20)
+                    n += T1;
+                else if(n < 50)
+                    n += T2;
+                else
+                    n += T3;
 
-                    graph.setN(n);
-                }
+                graph.setN(n);
                 break;
             case DOWN_ARROW:
                 if(n > 0){
