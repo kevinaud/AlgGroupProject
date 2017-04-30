@@ -43,25 +43,27 @@ void Graph::drawAxis(){
     yAxis.setColor(c);
     yAxis.stroke = 3;
 
-    const int FONT_SIZE = 25;
-    Font f(FONT_SIZE);
+    cout << "draw n" << endl;
+    if(nloc.x > -1 || nloc.y > -1)
+        font->drawLabeledInt(*plotter, nloc, "N ", n);
+    cout << "/draw n" << endl;
 
-    f.drawString(*plotter, Point(topLeft.x - 75, topLeft.y - FONT_SIZE - 50), "Y(time)");
+    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Y(time)");
 
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
-    f.drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + FONT_SIZE + 40), "X(matrix size)");
+    font->drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + font->getSize() + 40), "X(matrix size)");
 
     int i = 0;
     int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
         string label = to_string(i * step / 1000000);
-        int labelLength = f.calcStringLength(label);
-        Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * f.getSize()));
+        int labelLength = font->calcStringLength(label);
+        Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
         if (labelLoc.x < 0) {
             labelLoc.x = 0;
         }
-        f.drawString(*plotter, labelLoc, label);
+        font->drawString(*plotter, labelLoc, label);
         i++;
     }
 
@@ -95,7 +97,6 @@ void Graph::redraw(){
     drawAxis();
     
     //recalculate y based on maxTime
-    //for(auto j : points){
     for(auto j = points.begin(); j != points.end(); j++)
         for(int k = 0; k < times[j->first].size(); k++)
             j->second[k].y = origin.y - (double)size.y * ((double)times[j->first][k] / (double)maxTime);

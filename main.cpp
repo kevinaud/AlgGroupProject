@@ -41,12 +41,9 @@ int main(int argc, char ** argv)
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
- //   graph.test();
-
     graph.redraw();
 
     g.update();
-//    SDL_Delay(1000);
 
     while(!g.getQuit()){
         g.update();
