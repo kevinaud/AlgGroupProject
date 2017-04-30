@@ -229,6 +229,10 @@ public:
         this->color = color;
     }
 
+    Color getColor(){
+        return color;
+    }
+
     int getSize() {
         return size;
     }

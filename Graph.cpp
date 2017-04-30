@@ -47,10 +47,10 @@ void Graph::drawAxis(){
     if(nloc.x > -1 || nloc.y > -1)
         font->drawLabeledInt(*plotter, nloc, "N ", n);
 
-    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Y(time)");
+    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
 
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
-    font->drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + font->getSize() + 40), "X(matrix size)");
+    font->drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + font->getSize() + 40), "N (Matrix Size)");
 
     int i = 0;
     int step = maxTime / 10;
@@ -90,11 +90,18 @@ void Graph::drawAxis(){
     yAxis.draw(*plotter);
 
     //draw controls
+    Color tmp = font->getColor();
+    font->setColor(COLOR::RED);
     font->drawString(*plotter,Point(850, plotter->getRow()/2), "B Brute Force");
+    font->setColor(COLOR::GREEN);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 30),"D Divide and Conquer");
+    font->setColor(COLOR::BLUE);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 60),"S Strassen");
+    font->setColor(COLOR::ORANGE);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 90),"T Threaded Strassen");
+    font->setColor(COLOR::PINK);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 120),"C Clear");
+    font->setColor(tmp);
 }
 
 
@@ -105,12 +112,10 @@ void Graph::test(){
 void Graph::erase(MatrixMultFunc f){
     if(f){
         for(int k = 1; k < points[f].size(); k++){
-            //if(n_values[f][k] <= n){
-                Line l(points[f][k - 1],points[f][k]);
-                l.setColor(eraser);
-                l.stroke = 3;
-                l.draw(*plotter);
-           // }
+            Line l(points[f][k - 1],points[f][k]);
+            l.setColor(eraser);
+            l.stroke = 3;
+            l.draw(*plotter);
         }
     }
     else{
@@ -173,9 +178,6 @@ void Graph::clear(MatrixMultFunc f){
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
 
-        //find new max N
-        
-
         redraw();
     }
 }
@@ -186,7 +188,12 @@ void Graph::setColor(Color c){
 
 void Graph::setN(int n){
     this->n = n;
-    maxN = max(maxN,n);
+
+    //find new maxTime bounded by new n
+    for(auto t : times)
+        for(int k = 0; k < t.second.size(); k++)
+            if(t.second[k] <= n)
+                maxTime = max(maxTime,t.second[k]);
     redraw();
 }
 
@@ -210,8 +217,13 @@ void Graph::plot(MatrixMultFunc f, Color color){
     n_values[f].push_back(0);
 
     int step = 2;
-    if(n > MOST_TESTS)
+    if(n > MOST_TESTS){
         int step = n / MOST_TESTS;
+        ////be sure step is even
+        //be sure step is even
+        if(step % 2)
+            step++;
+    }
 
     //allocate matrices
     A = new int*[n];
