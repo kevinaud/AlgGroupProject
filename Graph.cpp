@@ -60,8 +60,8 @@ void Graph::drawAxis(){
         int labelLength = font->calcStringLength(label);
 
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
-        Point rectLoc(labelLoc.x - 5, labelLoc.y - 5);
-        int rectW = origin.x - 20 - rectLoc.x;
+        Point rectLoc(0, labelLoc.y - 5);
+        int rectW = origin.x - 20;
         int rectH = font->getSize() + 10;
         Rectangle rect(rectLoc, rectW, rectH);
         rect.setColor(COLOR::WHITE);
