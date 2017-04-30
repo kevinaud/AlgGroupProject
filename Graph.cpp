@@ -58,10 +58,30 @@ void Graph::drawAxis(){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
         string label = to_string(i * step / NS_PER);
         int labelLength = font->calcStringLength(label);
+
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
+        Point rectLoc(0, labelLoc.y - 5);
+        int rectW = origin.x - 20;
+        int rectH = font->getSize() + 10;
+        Rectangle rect(rectLoc, rectW, rectH);
+        rect.setColor(COLOR::WHITE);
+        rect.draw(*plotter);
+
+
         if (labelLoc.x < 0) {
             labelLoc.x = 0;
         }
+        font->drawString(*plotter, labelLoc, label);
+        i++;
+    }
+
+    i = 0;
+    step = n / 10;
+    for (int x = origin.x + 2; x <= bottomRight.x + 2; x += (size.x / 10)){
+        Line(Point(x, origin.y + 15), Point(x, origin.y)).draw(*plotter);
+        string label = to_string(i * step);
+        int labelLength = font->calcStringLength(label);
+        Point labelLoc(x - (labelLength / 2) - 3, origin.y + 25);
         font->drawString(*plotter, labelLoc, label);
         i++;
     }

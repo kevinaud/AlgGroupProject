@@ -21,7 +21,9 @@ public:
         this->size = size;
         int middle = (size / 2) + 1;
 
-        chars['1'].push_back(Line(Point(0,0), Point(0,size)));
+        chars['1'].push_back(Line(Point((2.0 * size) / 7,0), Point((2.0 * size) / 7,size)));
+        chars['1'].push_back(Line(Point(0, size), Point((4.0 * size) / 7,size)));
+        chars['1'].push_back(Line(Point((2.0 * size) / 7,0), Point(0,(2.0 * size) /7)));
 
         chars['2'].push_back(Line(Point(0,0), Point(middle,0)));
         chars['2'].push_back(Line(Point(middle,0), Point(middle, middle)));
