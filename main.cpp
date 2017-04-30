@@ -7,7 +7,7 @@
 #include "Graph.h"
 #include "Font.h"
 #include "ThreadedStrassen.h"
-#include "PolyReg.h"
+#include "polyReg.h"
 #include <ctime>
 
 #define MAX_N 500
@@ -22,8 +22,6 @@ const int WINDOW_HEIGHT = 800;
 
 int main(int argc, char ** argv)
 {
-
-
     SDL_Plotter g(WINDOW_HEIGHT, WINDOW_WIDTH);
 
     Point origin(100,700);
@@ -43,10 +41,12 @@ int main(int argc, char ** argv)
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
-    DataPoint d(Point(12,300), Point(800, 400));
-    d.draw(g, font, 4);
+ //   graph.test();
+
+    graph.redraw();
 
     g.update();
+//    SDL_Delay(1000);
 
     while(!g.getQuit()){
         g.update();

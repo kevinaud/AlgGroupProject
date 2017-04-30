@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
+#include <chrono>
 #include "Color.h"
 #include "Shapes.h"
 #include "Font.h"
 #include "SDL_Plotter.h"
 
 typedef int**(*MatrixMultFunc)(int**,int**,int);
+typedef std::chrono::high_resolution_clock Clock;
 
 class Graph{
 public:

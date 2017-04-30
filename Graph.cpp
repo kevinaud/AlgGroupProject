@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-#define START_MAX_TIME 1
+#define START_MAX_TIME 100000
 #define MOST_TESTS 100
 
 //DEBUGGING
@@ -10,7 +10,7 @@
 using namespace std;
 
 int ** testFunc(int **A, int **B, int dim){
-    SDL_Delay(((double)dim * (double)dim) / 10.0);
+    SDL_Delay(dim * dim / 5000);
     int ** c = new int*[dim];
     for(int i = 0; i < dim; i++)
         c[i] = new int[dim];
@@ -53,9 +53,8 @@ void Graph::drawAxis(){
     int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
-        string label = to_string(i * step);
+        string label = to_string(i * step / 1000000);
         int labelLength = f.calcStringLength(label);
-        cout << label << ", LENGTH=" << labelLength << endl;
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * f.getSize()));
         if (labelLoc.x < 0) {
             labelLoc.x = 0;
@@ -70,7 +69,7 @@ void Graph::drawAxis(){
 
 
 void Graph::test(){
-    plot(&testFunc);
+    plot(testFunc);
 }
 
 void Graph::erase(MatrixMultFunc f){
@@ -81,9 +80,11 @@ void Graph::erase(MatrixMultFunc f){
             l.draw(*plotter);
         }
     }
-    else
-        for(auto j : points)
+    else{
+        for(auto j : points){
             erase(j.first);
+        }
+    }
 }
 
 void Graph::redraw(){
@@ -91,13 +92,10 @@ void Graph::redraw(){
     drawAxis();
     
     //recalculate y based on maxTime
-    for(auto j : points){
-        auto t = times.begin();
-        for(int k = 0; k < j.second.size(); k++){
-            j.second[k].y = origin.y - (double)size.y * ((double)t->second[k] / (double)maxTime);
-        }
-        t++;
-    }
+    //for(auto j : points){
+    for(auto j = points.begin(); j != points.end(); j++)
+        for(int k = 0; k < times[j->first].size(); k++)
+            j->second[k].y = origin.y - (double)size.y * ((double)times[j->first][k] / (double)maxTime);
 
     //redraw points
     for(auto j : points){
@@ -127,10 +125,12 @@ void Graph::clear(MatrixMultFunc f){
         colors.erase(f);
 
         //find new maxTime
+        /*
         maxTime = START_MAX_TIME;
         for(auto t : times)
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
+        */
 
         redraw();
     }
@@ -167,14 +167,15 @@ void Graph::plot(MatrixMultFunc f, Color color){
     if(n > MOST_TESTS)
         int step = n / MOST_TESTS;
 
+    //allocate matrices
+    A = new int*[n];
+    B = new int*[n];
+    for(int i = 0; i < n; i++){
+        A[i] = new int[n];
+        B[i] = new int[n];
+    }
+
     for(int cur = 2; cur <= n; cur += step){
-        //allocate matrices
-        A = new int*[cur];
-        B = new int*[cur];
-        for(int i = 0; i < cur; i++){
-            A[i] = new int[cur];
-            B[i] = new int[cur];
-        }
 
         //generate random matrices
         for(int r = 0; r < cur; r++){
@@ -185,9 +186,11 @@ void Graph::plot(MatrixMultFunc f, Color color){
         }
 
         //time algorithm
-        int time = SDL_GetTicks();
+        auto start = Clock::now();
         C = f(A,B,cur);
-        time = SDL_GetTicks() - time;
+        auto end = Clock::now();
+        unsigned int time = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        cout << time << "ns" << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)
@@ -197,22 +200,22 @@ void Graph::plot(MatrixMultFunc f, Color color){
 
         prevX = normX;
         prevY = normY;
-        points[f].push_back(Point(prevX,prevY));
+        points[f].push_back(Point(normX,normY));
         times[f].push_back(time);
         redraw();
 
         plotter->update();
 
-        //free matrices
-        for(int i = 0; i < cur; i++){
-            delete A[i];
-            delete B[i];
-            delete C[i];
-        }
-        delete A;
-        delete B;
-        delete C;
     }
+    //free matrices
+    for(int i = 0; i < n; i++){
+        delete A[i];
+        delete B[i];
+        delete C[i];
+    }
+    delete A;
+    delete B;
+    delete C;
 }
 
 DataPoint::DataPoint(Point data, Point loc) {
