@@ -193,22 +193,34 @@ public:
         chars[':'].push_back(Line(Point(middle,(size / 3) * 2), Point(middle - 1,(size / 3) * 2)));
         chars[':'].push_back(Line(Point(middle,size / 3), Point(middle - 1,size / 3)));
 
-        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),0), Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5)), Point((int)(((size * 4.0) / 17) + 0.5), size)));
-        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5)),Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),0), 
+                        Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5)), 
+                        Point((int)(((size * 4.0) / 17) + 0.5), size)));
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5)),
+                        Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5)),
+                        Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5)),
+                        Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5)),
+                        Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 13.0) / 17) + 0.5))));
+        chars['('].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 8.0) / 17) + 0.5)),
+                        Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 10.0) / 17) + 0.5))));
 
         chars[')'].push_back(Line(Point(0,0), Point(0,(int)(((size * 2.0) / 17) + 0.5))));
         chars[')'].push_back(Line(Point(0,(int)(((size * 15.0) / 17) + 0.5)), Point(0, size)));
-        chars[')'].push_back(Line(Point(0,(int)(((size * 1.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5))));
-        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5)),Point(0,(int)(((size * 16.0) / 17) + 0.5))));
-        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5)),Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5))));
-        chars[')'].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5)),Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point(0,(int)(((size * 1.0) / 17) + 0.5)),
+                Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5)),
+                Point(0,(int)(((size * 16.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 5.0) / 17) + 0.5)),
+                Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5))));
+        chars[')'].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5)),
+                Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5))));
 
-        chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)), Point((int)(((size * 0.0)/ 7.0) + 0.5),(int)(((size * 8.0)/ 7.0) + 0.5))));
+        chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)), 
+                    Point((int)(((size * 0.0)/ 7.0) + 0.5),(int)(((size * 8.0)/ 7.0) + 0.5))));
     }
 
     void setColor(Color color) {
@@ -256,6 +268,34 @@ public:
             }
             itr++;
         }
+    }
+
+    int calcCharLength(char c) {
+        vector<Line>::iterator itr = chars[c].begin();
+        int maxX = max(itr->p1.x, itr->p2.x);
+
+        while(itr != chars[c].end()) {
+            if (max(itr->p1.x, itr->p2.x) > maxX) {
+                maxX = max(itr->p1.x, itr->p2.x);
+            }
+            itr++;
+        }
+        return maxX;
+    }
+
+    int calcStringLength(string s) {
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        string::iterator itr = s.begin();
+        int length = 0;
+        while (itr != s.end()) {
+            if (*itr == ' ') {
+                length += size;
+            } else {
+                length += calcCharLength(*itr) + (size / 3);
+            }
+            itr++;
+        }
+        return length;
     }
 
     void drawInt(SDL_Plotter &p, Point loc, int num){

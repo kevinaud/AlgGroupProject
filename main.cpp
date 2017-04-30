@@ -7,10 +7,10 @@
 #include "Graph.h"
 #include "Font.h"
 #include "ThreadedStrassen.h"
-#include "PolyReg.h"
+#include "polyReg.h"
+#include <ctime>
 
-
-#define MAX_N 500
+//#define MAX_N 500
 #define T1 2
 #define T2 4
 #define T3 10
@@ -22,8 +22,6 @@ const int WINDOW_HEIGHT = 800;
 
 int main(int argc, char ** argv)
 {
-
-
     SDL_Plotter g(WINDOW_HEIGHT, WINDOW_WIDTH);
 
     Point origin(100,700);
@@ -31,7 +29,6 @@ int main(int argc, char ** argv)
     int n = 100;
     char key;
     Font font(15);
-
 
     Font f(20);
 
@@ -41,17 +38,10 @@ int main(int argc, char ** argv)
     f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
     f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 90),"T Threaded Straussen");
 
-
-
-
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
 
-    DataPoint d(Point(12,300), Point(800, 400));
-    d.draw(g, font, 4);
-
-    Circle c(origin,3);
-    c.draw(g);
+    graph.redraw();
 
     g.update();
 
@@ -65,32 +55,23 @@ int main(int argc, char ** argv)
                 if(on[0]){
                     f.setColor(COLOR::RED);
                     f.drawString(g,Point(850, WINDOW_HEIGHT/2), "B Brute Force");
-                    cout << "Brute Force...";
-                    graph.setColor(COLOR::RED);
-                    graph.plot(&BF_MatrixMult);
-                    cout << "!" << endl;
+                    graph.plot(BF_MatrixMult,COLOR::RED);
                 }
                 else{
                     f.setColor(COLOR::BLACK);
                     f.drawString(g,Point(850, WINDOW_HEIGHT/2), "B Brute Force");
-                    graph.clear(&BF_MatrixMult);
+                    graph.clear(BF_MatrixMult);
                 }
                 break;
             case 'D':
                 on[1] = !on[1];
                 if(on[1]){
-
-
                     f.setColor(COLOR::GREEN);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 30),"D Divide and Conquer");
-
-                    graph.setColor(COLOR::GREEN);
-                    cout << "divide and conquer...";
-                    graph.plot(&matrixMultDivideAndConquer);
-                    cout << "!" << endl;
+                    graph.plot(matrixMultDivideAndConquer,COLOR::GREEN);
                 }
                 else{
-                    graph.clear(&matrixMultDivideAndConquer);
+                    graph.clear(matrixMultDivideAndConquer);
                     f.setColor(COLOR::BLACK);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 30),"D Divide and Conquer");
                 }
@@ -100,9 +81,10 @@ int main(int argc, char ** argv)
                 if(on[2]){
                     f.setColor(COLOR::BLUE);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
-                    graph.plot(&Strassen);
+                    graph.plot(Strassen,COLOR::BLUE);
                 }
                 else{
+                    graph.clear(Strassen);
                     f.setColor(COLOR::BLACK);
                     f.drawString(g, Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
                 }
@@ -112,30 +94,31 @@ int main(int argc, char ** argv)
                 if(on[3]){
                     f.setColor(COLOR::PURPLE);
                     f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 90),"T Threaded Straussen");
-                    graph.plot(&ThreadedStrassen);
-
+                    graph.plot(ThreadedStrassen,COLOR::PURPLE);
                 }
                 else{
+                    graph.clear(ThreadedStrassen);
                     f.setColor(COLOR::BLACK);
                     f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 90),"T Threaded Straussen");
                 }
+                break;
+            case 'C':
+                graph.clear();
+                for(int i = 0; i < 4; i++)
+                    on[i] = false;
                 break;
             case 'Q':
                  f.drawString(g,Point(250,500), "Quit");
                 break;
             case UP_ARROW:
-                if(n <= MAX_N){
-                    if(n + T3 > MAX_N)
-                        n = MAX_N;
-                    else if(n < 20)
-                        n += T1;
-                    else if(n < 50)
-                        n += T2;
-                    else
-                        n += T3;
+                if(n < 20)
+                    n += T1;
+                else if(n < 50)
+                    n += T2;
+                else
+                    n += T3;
 
-                    graph.setN(n);
-                }
+                graph.setN(n);
                 break;
             case DOWN_ARROW:
                 if(n > 0){
@@ -151,14 +134,6 @@ int main(int argc, char ** argv)
             default:
                  f.drawString(g,Point(250,500), "Other");
                 break;
-
-            }
-
-
-
-    	    key = g.getKey();
-            cout << "key: " << key << endl;
-            switch(key){
 
             }
         }
