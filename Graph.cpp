@@ -59,7 +59,6 @@ void Graph::test(){
 }
 
 void Graph::erase(MatrixMultFunc f){
-    cout << "erase" << endl;
     if(f){
         for(int k = 1; k < points[f].size(); k++){
             Line l(points[f][k - 1],points[f][k]);
@@ -67,22 +66,15 @@ void Graph::erase(MatrixMultFunc f){
             l.draw(*plotter);
         }
     }
-    else{
-        for(auto j : points){
-            for(int k = 1; k < j.second.size(); k++){
-                Line l(j.second[k - 1],j.second[k]);
-                l.setColor(eraser);
-                l.draw(*plotter);
-            }
-        }
-    }
+    else
+        for(auto j : points)
+            erase(j.first);
 }
 
 void Graph::redraw(){
     erase();
-    if(nloc.x > -1 && nloc.y > -1)
-        font->drawLabeledInt(*plotter,nloc,"N ",n);
     drawAxis();
+    
     //recalculate y based on maxTime
     for(auto j : points){
         auto t = times.begin();
@@ -119,13 +111,11 @@ void Graph::clear(MatrixMultFunc f){
         times.erase(f);
         colors.erase(f);
 
-        cout << "max: " << maxTime << endl;
         //find new maxTime
         maxTime = START_MAX_TIME;
         for(auto t : times)
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
-        cout << "newMax: " << maxTime << endl;
 
         redraw();
     }
@@ -163,7 +153,6 @@ void Graph::plot(MatrixMultFunc f, Color color){
         int step = n / MOST_TESTS;
 
     for(int cur = 2; cur <= n; cur += step){
-        cout << "max: " << maxTime << endl;
         //allocate matrices
         A = new int*[cur];
         B = new int*[cur];
@@ -184,14 +173,12 @@ void Graph::plot(MatrixMultFunc f, Color color){
         int time = SDL_GetTicks();
         C = f(A,B,cur);
         time = SDL_GetTicks() - time;
-        cout << cur << ',' << time << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)
-            maxTime = time + 20;
+            maxTime = time + 10;
         int normX = origin.x + (double)size.x * ((double)cur / (double)n);
         int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
-        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
 
         prevX = normX;
         prevY = normY;
