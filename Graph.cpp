@@ -1,8 +1,8 @@
 #include "Graph.h"
 
-#define START_MAX_TIME 100000
+#define START_MAX_TIME 1000000
 #define MOST_TESTS 100
-#define NS_PER_MS 100000
+#define NS_PER 100000
 
 //DEBUGGING
 #include <iostream>
@@ -56,7 +56,7 @@ void Graph::drawAxis(){
     int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
-        string label = to_string(i * step / NS_PER_MS);
+        string label = to_string(i * step / NS_PER);
         int labelLength = font->calcStringLength(label);
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
         if (labelLoc.x < 0) {
@@ -68,6 +68,13 @@ void Graph::drawAxis(){
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
+
+    //draw controls
+    font->drawString(*plotter,Point(850, plotter->getRow()/2), "B Brute Force");
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 30),"D Divide and Conquer");
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 60),"S Strassen");
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 90),"T Threaded Strassen");
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 120),"C Clear");
 }
 
 
@@ -78,10 +85,12 @@ void Graph::test(){
 void Graph::erase(MatrixMultFunc f){
     if(f){
         for(int k = 1; k < points[f].size(); k++){
-            Line l(points[f][k - 1],points[f][k]);
-            l.setColor(eraser);
-            l.stroke = 3;
-            l.draw(*plotter);
+            //if(n_values[f][k] <= n){
+                Line l(points[f][k - 1],points[f][k]);
+                l.setColor(eraser);
+                l.stroke = 3;
+                l.draw(*plotter);
+           // }
         }
     }
     else{
@@ -100,13 +109,21 @@ void Graph::redraw(){
         for(int k = 0; k < times[j->first].size(); k++)
             j->second[k].y = origin.y - (double)size.y * ((double)times[j->first][k] / (double)maxTime);
 
+    //recalculate x based on n_values
+    for(auto j = points.begin(); j != points.end(); j++)
+        for(int k = 0; k < n_values[j->first].size(); k++)
+            j->second[k].x = origin.x + (double)size.x * ((double)n_values[j->first][k] / (double)n);
+
     //redraw points
     for(auto j : points){
         for(int k = 1; k < j.second.size(); k++){
-            Line l(j.second[k - 1],j.second[k]);
-            l.setColor(colors[j.first]);
-            l.stroke = 3;
-            l.draw(*plotter);
+            if(n_values[j.first][k] <= n)
+            {
+                Line l(j.second[k - 1],j.second[k]);
+                l.setColor(colors[j.first]);
+                l.stroke = 3;
+                l.draw(*plotter);
+            }
         }
     }
 }
@@ -116,6 +133,7 @@ void Graph::clear(){
     erase();
     points.clear();
     times.clear();
+    n_values.clear();
     colors.clear();
     redraw();
 }
@@ -126,15 +144,17 @@ void Graph::clear(MatrixMultFunc f){
 
         points.erase(f);
         times.erase(f);
+        n_values.erase(f);
         colors.erase(f);
 
         //find new maxTime
-        /*
         maxTime = START_MAX_TIME;
         for(auto t : times)
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
-        */
+
+        //find new max N
+        
 
         redraw();
     }
@@ -146,6 +166,7 @@ void Graph::setColor(Color c){
 
 void Graph::setN(int n){
     this->n = n;
+    maxN = max(maxN,n);
     redraw();
 }
 
@@ -166,6 +187,7 @@ void Graph::plot(MatrixMultFunc f, Color color){
     colors[f] = color;
     points[f].push_back(Point(prevX,prevY));
     times[f].push_back(0);
+    n_values[f].push_back(0);
 
     int step = 2;
     if(n > MOST_TESTS)
@@ -205,6 +227,7 @@ void Graph::plot(MatrixMultFunc f, Color color){
         prevY = normY;
         points[f].push_back(Point(normX,normY));
         times[f].push_back(time);
+        n_values[f].push_back(cur);
         redraw();
 
         plotter->update();

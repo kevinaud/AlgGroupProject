@@ -29,7 +29,8 @@ public:
 private:
 	MatrixMultFunc func;
     int n,
-        maxTime;
+        maxTime,
+        maxN;
     Point origin,
           size,
           nloc;
@@ -37,9 +38,10 @@ private:
     Color c;
     Color eraser;
     Font *font;
-    map<MatrixMultFunc,Color> colors;
-    map<MatrixMultFunc,vector<Point> > points;
-    map<MatrixMultFunc,vector<int> > times;
+    map<MatrixMultFunc,Color>           colors;
+    map<MatrixMultFunc,vector<Point> >  points;
+    map<MatrixMultFunc,vector<int> >    times;
+    map<MatrixMultFunc,vector<int> >    n_values;
 };
 
 class DataPoint {

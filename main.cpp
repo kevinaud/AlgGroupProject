@@ -33,10 +33,6 @@ int main(int argc, char ** argv)
     Font f(20);
 
     bool on[] = {false, false, false, false};
-    f.drawString(g,Point(850, WINDOW_HEIGHT/2), "B Brute Force");
-    f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 30),"D Divide and Conquer");
-    f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 60),"S Straussen");
-    f.drawString(g,Point(850, WINDOW_HEIGHT/2 + 90),"T Threaded Straussen");
 
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(1000, 650));
