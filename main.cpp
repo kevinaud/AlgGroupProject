@@ -22,6 +22,8 @@ const int WINDOW_HEIGHT = 800;
 
 int main(int argc, char ** argv)
 {
+
+
     SDL_Plotter g(WINDOW_HEIGHT, WINDOW_WIDTH);
 
     Point origin(100,700);
