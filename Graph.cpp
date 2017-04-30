@@ -2,6 +2,7 @@
 
 #define START_MAX_TIME 100000
 #define MOST_TESTS 100
+#define NS_PER_MS 100000
 
 //DEBUGGING
 #include <iostream>
@@ -55,7 +56,7 @@ void Graph::drawAxis(){
     int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
-        string label = to_string(i * step / 1000000);
+        string label = to_string(i * step / NS_PER_MS);
         int labelLength = font->calcStringLength(label);
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
         if (labelLoc.x < 0) {
