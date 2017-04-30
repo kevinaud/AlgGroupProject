@@ -39,7 +39,9 @@ void Graph::drawAxis(){
     Line yAxis(origin, topLeft);
 
     xAxis.setColor(c);
+    xAxis.stroke = 3;
     yAxis.setColor(c);
+    yAxis.stroke = 3;
 
     const int FONT_SIZE = 25;
     Font f(FONT_SIZE);
@@ -77,6 +79,7 @@ void Graph::erase(MatrixMultFunc f){
         for(int k = 1; k < points[f].size(); k++){
             Line l(points[f][k - 1],points[f][k]);
             l.setColor(eraser);
+            l.stroke = 3;
             l.draw(*plotter);
         }
     }
@@ -102,6 +105,7 @@ void Graph::redraw(){
         for(int k = 1; k < j.second.size(); k++){
             Line l(j.second[k - 1],j.second[k]);
             l.setColor(colors[j.first]);
+            l.stroke = 3;
             l.draw(*plotter);
         }
     }
