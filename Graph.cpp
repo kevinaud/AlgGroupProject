@@ -185,7 +185,6 @@ void Graph::clear(){
     erase();
     points.clear();
     times.clear();
-    is_smooth.clear();
     n_values.clear();
     colors.clear();
     redraw();
@@ -199,7 +198,6 @@ void Graph::clear(MatrixMultFunc f){
         times.erase(f);
         n_values.erase(f);
         colors.erase(f);
-        is_smooth.erase(f);
 
         //find new maxTime
         maxTime = MIN_TIME;
