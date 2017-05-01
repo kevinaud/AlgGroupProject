@@ -57,7 +57,7 @@ void Graph::drawAxis(){
 
     if(sloc.x > -1 && sloc.y > -1){
         font->drawString(*plotter, Point(sloc.x,sloc.y - 30), "RIGHT/LEFT");
-        font->drawLabeledInt(*plotter, sloc, "Smoothness: ", degree);
+        font->drawLabeledInt(*plotter, sloc, "Degree Fit: ", degree);
     }
     if(nloc.x > -1 && nloc.y > -1){
         font->drawString(*plotter, Point(nloc.x,nloc.y - 30), "UP/DWN");
@@ -121,7 +121,7 @@ void Graph::drawAxis(){
     font->setColor(COLOR::PINK);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 120),"C Clear");
     font->setColor(COLOR::PURPLE);
-    font->drawString(*plotter,Point(850, plotter->getRow() / 2 + 150), "N Smooth");
+    font->drawString(*plotter,Point(850, plotter->getRow() / 2 + 150), "N Curve Fit");
     font->setColor(tmp);
 }
 
