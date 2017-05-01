@@ -24,8 +24,8 @@ int main(int argc, char ** argv)
 
     Point origin(100,700);
     Point graphSize(700,600);
-    int n = 300,
-        deg = 1;
+    int n = 200,
+        deg = 5;
     char key;
     Font font(15);
 
@@ -34,8 +34,9 @@ int main(int argc, char ** argv)
     bool on[] = {false, false, false, false};
 
     Graph graph(g, font, n, origin, graphSize);
-    graph.setNLoc(Point(850, g.getRow() / 2 - 50));
-    graph.setSmoothLoc(Point(850, g.getRow() / 2 - 80));
+    graph.setNLoc(Point(850, g.getRow() / 2 - 60));
+    graph.setSmoothLoc(Point(850, g.getRow() / 2 - 130));
+    graph.setSmoothness(deg);
     graph.redraw();
 
     g.update();
@@ -74,9 +75,6 @@ int main(int argc, char ** argv)
                     else
                         graph.clear(ThreadedStrassen);
                     break;
-                case 'N':
-                    graph.smooth();
-                    break;
                 case 'C':
                     graph.clear();
                     for(int i = 0; i < 4; i++)
@@ -106,6 +104,10 @@ int main(int argc, char ** argv)
 
                         graph.setN(n);
                     }
+                    break;
+                case 'N':
+                    cout << "deg = " << deg << endl;
+                    graph.smooth();
                     break;
                 case RIGHT_ARROW:
                     if(deg < n){

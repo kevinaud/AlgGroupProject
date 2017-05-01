@@ -46,10 +46,14 @@ void Graph::drawAxis(){
     yAxis.setColor(c);
     yAxis.stroke = 3;
 
-    if(sloc.x > -1 && sloc.y > -1)
-        font->drawLabeledInt(*plotter, sloc, "Smoothness ", degree);
-    if(nloc.x > -1 && nloc.y > -1)
-        font->drawLabeledInt(*plotter, nloc, "v^N ", n);
+    if(sloc.x > -1 && sloc.y > -1){
+        font->drawString(*plotter, Point(sloc.x,sloc.y - 30), "RIGHT/LEFT");
+        font->drawLabeledInt(*plotter, sloc, "Smoothness: ", degree);
+    }
+    if(nloc.x > -1 && nloc.y > -1){
+        font->drawString(*plotter, Point(nloc.x,nloc.y - 30), "UP/DWN");
+        font->drawLabeledInt(*plotter, nloc, "N: ", n);
+    }
 
     font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
 
@@ -132,7 +136,7 @@ void Graph::erase(MatrixMultFunc f){
 }
 
 void Graph::redraw(){
-    erase();
+    plotter->clear();
     drawAxis();
     
     //get new maxTime
@@ -146,7 +150,7 @@ void Graph::redraw(){
         for(int k = 0; k < times[j->first].size(); k++)
             j->second[k].y = origin.y - (double)size.y * ((double)times[j->first][k] / (double)maxTime);
 
-    //recalculate x based on n_values
+    //recalculate x based on n
     for(auto j = points.begin(); j != points.end(); j++)
         for(int k = 0; k < n_values[j->first].size(); k++)
             j->second[k].x = origin.x + (double)size.x * ((double)n_values[j->first][k] / (double)n);
@@ -171,6 +175,7 @@ void Graph::clear(){
     erase();
     points.clear();
     times.clear();
+    is_smooth.clear();
     n_values.clear();
     colors.clear();
     redraw();
@@ -184,6 +189,7 @@ void Graph::clear(MatrixMultFunc f){
         times.erase(f);
         n_values.erase(f);
         colors.erase(f);
+        is_smooth.erase(f);
 
         //find new maxTime
         maxTime = START_MAX_TIME;
@@ -235,6 +241,7 @@ bool Graph::plot(MatrixMultFunc f, Color color){
 
     clear(f);
     colors[f] = color;
+    is_smooth[f] = false;
     points[f].push_back(Point(prevX,prevY));
     times[f].push_back(0);
     n_values[f].push_back(0);
@@ -317,23 +324,25 @@ bool Graph::plot(MatrixMultFunc f, Color color){
 
 void Graph::smooth(){
 
+    cout << "degree = " << degree << endl;
     for(auto j : points){
-        cout << "poly" << endl;
-        vector<double> A = polyReg(n_values[j.first],times[j.first],degree);
-        cout << "done poly" << endl;
-        for(int k = 0; k < j.second.size(); k++){
-            //smoothify
-            double result = 0;
-            cout << "A: ";
-            for(int i = 0; i < A.size(); i++){
-                cout << A[i] << ',';
-                result += A[i] * pow(n_values[j.first][k],i);
+        if(!is_smooth[j.first]){
+            is_smooth[j.first] = true;
+            vector<double> A = polyReg(n_values[j.first],times[j.first],degree);
+            for (int i = 0; i < A.size(); i++) 
+                cout << i << ": " << A[i] << endl;
+
+            for(int k = 0; k < times[j.first].size(); k++){
+                //smoothify
+                double result = 0;
+                for(int i = 0; i < A.size(); i++){
+                    result += A[i] * pow(n_values[j.first][k], i);
+                    cout << result << " + ";
+                }
+                cout << endl << "result: " << result << endl;
+                times[j.first][k] = result;
+                cout << "times set: " << times[j.first][k] << endl;
             }
-            cout << endl;
-            cout << "prev: " << j.second[k].y << endl;
-            cout << "result: " << result << endl;
-            times[j.first][k] = result;
-            cout << "norm: " << j.second[k].y << endl;
         }
     }
 

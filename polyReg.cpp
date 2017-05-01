@@ -49,6 +49,7 @@ vector<double> polyReg(vector<int> &x, vector<int> &y, int deg) {
     double* a = new double[deg];
     for (int i = 0; i < deg; i++) {
         a[i] = A[i][deg];
+        //cout << i << ": " << a[i] << endl;
     }
     delete[]A;
 

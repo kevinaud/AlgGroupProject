@@ -47,6 +47,7 @@ private:
     map<MatrixMultFunc,vector<Point> >  points;
     map<MatrixMultFunc,vector<int> >    times;
     map<MatrixMultFunc,vector<int> >    n_values;
+    map<MatrixMultFunc,bool>            is_smooth;
 };
 
 class DataPoint {
