@@ -17,7 +17,7 @@ class Graph{
 public:
 	Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size);
     void drawAxis();
-    void plot(MatrixMultFunc f, Color color = COLOR::BLACK);
+    bool plot(MatrixMultFunc f, Color color = COLOR::BLACK);
     void test();
     void erase(MatrixMultFunc f = NULL);
     void redraw();
