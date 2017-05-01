@@ -50,9 +50,9 @@ void Graph::drawAxis(){
 
     //set y axis to nanoseconds or milliseconds
     if(n < NS_LIMIT)
-        units = "nanosec";
+        units = "(nanosec)";
     else
-        units = "millisec";
+        units = "(millisec)";
 
 
     if(sloc.x > -1 && sloc.y > -1){
