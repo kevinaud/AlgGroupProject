@@ -264,38 +264,29 @@ bool Graph::plot(MatrixMultFunc f, Color color){
             step++;
     }
 
-    cout << "alloc " << n << endl;
     //allocate matrices
     A = new int*[n];
     B = new int*[n];
     for(int i = 0; i < n; i++){
-        cout << i << endl;
         A[i] = new int[n];
         B[i] = new int[n];
     }
-    cout << "allocd " << n << "x" << n << endl;
 
     for(int cur = 2; cur < n; cur += step){
 
-        cout << "gen" << endl;
         //generate random matrices
         for(int r = 0; r < cur; r++){
             for(int c = 0; c < cur; c++){
-                //cout << r << ',' << c << endl;
                 A[r][c] = rand() % 10;
                 B[r][c] = rand() % 10;
             }
         }
-        cout << "/gen" << endl;
 
         //time algorithm
-
-        cout << "algorithm" << endl;
         auto start = Clock::now();
         C = f(A,B,cur);
         auto end = Clock::now();
         unsigned int time = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-        cout << "/algorithm" << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)
@@ -312,12 +303,9 @@ bool Graph::plot(MatrixMultFunc f, Color color){
 
         redraw();
 
-
-        cout << "deleting C" << endl;
         for(int i = 0; i < cur; i++)
             delete []C[i];
         delete []C;
-        cout << "/deleting C" << endl;
 
         if(plotter->getQuit()){
             ret = false;
