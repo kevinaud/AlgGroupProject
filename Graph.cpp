@@ -151,6 +151,7 @@ void Graph::redraw(){
             }
         }
     }
+    plotter->update();
 }
 
 void Graph::clear(){
@@ -202,13 +203,14 @@ void Graph::setNLoc(Point nl){
     redraw();
 }
 
-void Graph::plot(MatrixMultFunc f, Color color){
+bool Graph::plot(MatrixMultFunc f, Color color){
     srand(SDL_GetTicks());
 
     int **A, **B, **C;
 
     int prevX = origin.x;
     int prevY = origin.y;
+    bool ret = true;
 
     clear(f);
     colors[f] = color;
@@ -252,6 +254,7 @@ void Graph::plot(MatrixMultFunc f, Color color){
         //adjust y if new maxTime
         if(time > maxTime)
             maxTime = time + 10;
+
         int normX = origin.x + (double)size.x * ((double)cur / (double)n);
         int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
 
@@ -260,20 +263,35 @@ void Graph::plot(MatrixMultFunc f, Color color){
         points[f].push_back(Point(normX,normY));
         times[f].push_back(time);
         n_values[f].push_back(cur);
+
         redraw();
+        
+        for(int i = 0; i < cur; i++)
+            delete C[i];
+        delete C;
 
-        plotter->update();
-
+        if(plotter->getQuit()){
+            ret = false;
+            break;
+        }
+        if(plotter->kbhit()){
+            char c = plotter->getKey();
+            if(c == 'C'){
+                clear(f);
+                ret = false;
+                break;
+            }
+        }
     }
     //free matrices
     for(int i = 0; i < n; i++){
         delete A[i];
         delete B[i];
-        delete C[i];
     }
     delete A;
     delete B;
-    delete C;
+
+    return ret;
 }
 
 DataPoint::DataPoint(Point data, Point loc) {

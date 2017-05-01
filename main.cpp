@@ -49,14 +49,14 @@ int main(int argc, char ** argv)
                 case 'B':
                     on[0] = !on[0];
                     if(on[0])
-                        graph.plot(BF_MatrixMult,COLOR::RED);
+                        on[0] = graph.plot(BF_MatrixMult,COLOR::RED);
                     else
                         graph.clear(BF_MatrixMult);
                     break;
                 case 'D':
                     on[1] = !on[1];
                     if(on[1])
-                        graph.plot(matrixMultDivideAndConquer,COLOR::GREEN);
+                        on[1] = graph.plot(matrixMultDivideAndConquer,COLOR::GREEN);
                     else
                         graph.clear(matrixMultDivideAndConquer);
 
@@ -64,14 +64,14 @@ int main(int argc, char ** argv)
                 case 'S':
                     on[2] = !on[2];
                     if(on[2])
-                        graph.plot(Strassen,COLOR::BLUE);
+                        on[2] = graph.plot(Strassen,COLOR::BLUE);
                     else
                         graph.clear(Strassen);
                     break;
                 case 'T':
                     on[3] = !on[3];
                     if(on[3])
-                        graph.plot(ThreadedStrassen,COLOR::ORANGE);
+                        on[3] = graph.plot(ThreadedStrassen,COLOR::ORANGE);
                     else
                         graph.clear(ThreadedStrassen);
                     break;
