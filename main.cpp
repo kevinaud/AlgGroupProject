@@ -7,10 +7,8 @@
 #include "Graph.h"
 #include "Font.h"
 #include "ThreadedStrassen.h"
-#include "polyReg.h"
 #include <ctime>
 
-//#define MAX_N 500
 #define T1 2
 #define T2 4
 #define T3 10
@@ -26,7 +24,8 @@ int main(int argc, char ** argv)
 
     Point origin(100,700);
     Point graphSize(700,600);
-    int n = 300;
+    int n = 300,
+        deg = 1;
     char key;
     Font font(15);
 
@@ -36,6 +35,7 @@ int main(int argc, char ** argv)
 
     Graph graph(g, font, n, origin, graphSize);
     graph.setNLoc(Point(850, g.getRow() / 2 - 50));
+    graph.setSmoothLoc(Point(850, g.getRow() / 2 - 80));
     graph.redraw();
 
     g.update();
@@ -59,7 +59,6 @@ int main(int argc, char ** argv)
                         on[1] = graph.plot(matrixMultDivideAndConquer,COLOR::GREEN);
                     else
                         graph.clear(matrixMultDivideAndConquer);
-
                     break;
                 case 'S':
                     on[2] = !on[2];
@@ -74,6 +73,9 @@ int main(int argc, char ** argv)
                         on[3] = graph.plot(ThreadedStrassen,COLOR::ORANGE);
                     else
                         graph.clear(ThreadedStrassen);
+                    break;
+                case 'N':
+                    graph.smooth();
                     break;
                 case 'C':
                     graph.clear();
@@ -104,6 +106,18 @@ int main(int argc, char ** argv)
 
                         graph.setN(n);
                     }
+                    break;
+                case RIGHT_ARROW:
+                    deg++;
+                    graph.setSmoothness(deg);
+                    break;
+                case LEFT_ARROW:
+                    if(deg <= 0)
+                        deg = 0; 
+                    else
+                        deg--;  
+                    graph.setSmoothness(deg);
+                    break;
 
             }
         }

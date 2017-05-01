@@ -20,11 +20,13 @@ int ** testFunc(int **A, int **B, int dim){
 
 Graph::Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size){
     this->n = n;
+    degree = 1;
     maxTime = START_MAX_TIME;
     this->origin = origin;
     this->size = size;
     plotter = &p;
     nloc = Point(-1,-1);
+    sloc = Point(-1,-1);
     font = &f;
     c = COLOR::BLACK;
     eraser = COLOR::WHITE;
@@ -44,8 +46,10 @@ void Graph::drawAxis(){
     yAxis.setColor(c);
     yAxis.stroke = 3;
 
-    if(nloc.x > -1 || nloc.y > -1)
-        font->drawLabeledInt(*plotter, nloc, "N ", n);
+    if(sloc.x > -1 && sloc.y > -1)
+        font->drawLabeledInt(*plotter, sloc, "Smoothness ", degree);
+    if(nloc.x > -1 && nloc.y > -1)
+        font->drawLabeledInt(*plotter, nloc, "vN ", n);
 
     font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
 
@@ -101,6 +105,8 @@ void Graph::drawAxis(){
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 90),"T Threaded Strassen");
     font->setColor(COLOR::PINK);
     font->drawString(*plotter,Point(850, plotter->getRow()/2 + 120),"C Clear");
+    font->setColor(COLOR::PURPLE);
+    font->drawString(*plotter,Point(850, plotter->getRow() / 2 + 150), "N Smooth");
     font->setColor(tmp);
 }
 
@@ -203,6 +209,15 @@ void Graph::setNLoc(Point nl){
     redraw();
 }
 
+void Graph::setSmoothness(int s){
+    degree = s;
+    redraw();
+}
+
+void Graph::setSmoothLoc(Point sl){
+    sloc = sl;
+}
+
 bool Graph::plot(MatrixMultFunc f, Color color){
     srand(SDL_GetTicks());
 
@@ -292,6 +307,26 @@ bool Graph::plot(MatrixMultFunc f, Color color){
     delete B;
 
     return ret;
+}
+
+void Graph::smooth(){
+
+    for(auto j : points){
+        cout << "poly" << endl;
+        vector<double> A = polyReg(points[j.first],degree);
+        cout << "done poly" << endl;
+        for(int k = 0; k < j.second.size(); k++){
+            //smoothify
+            double result = 0;
+            for(int i = 0; i < A.size(); i++)
+                result += A[i] * pow(j.second[k].x,i);
+            cout << "prev: " << j.second[k].y << endl;
+            j.second[k].y = result;
+            cout << "norm: " << j.second[k].y << endl;
+        }
+    }
+
+    redraw();
 }
 
 DataPoint::DataPoint(Point data, Point loc) {

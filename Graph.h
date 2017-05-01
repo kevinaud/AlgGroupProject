@@ -9,6 +9,7 @@
 #include "Shapes.h"
 #include "Font.h"
 #include "SDL_Plotter.h"
+#include "polyReg.h"
 
 typedef int**(*MatrixMultFunc)(int**,int**,int);
 typedef std::chrono::high_resolution_clock Clock;
@@ -18,6 +19,7 @@ public:
 	Graph(SDL_Plotter &p, Font &f, int n, Point origin, Point size);
     void drawAxis();
     bool plot(MatrixMultFunc f, Color color = COLOR::BLACK);
+    void smooth();
     void test();
     void erase(MatrixMultFunc f = NULL);
     void redraw();
@@ -26,14 +28,17 @@ public:
     void setColor(Color);
     void setN(int);
     void setNLoc(Point);
+    void setSmoothness(int);
+    void setSmoothLoc(Point);
 private:
 	MatrixMultFunc func;
     int n,
-        maxTime,
-        maxN;
+        degree,
+        maxTime;
     Point origin,
           size,
-          nloc;
+          nloc,
+          sloc;
     SDL_Plotter *plotter;
     Color c;
     Color eraser;
