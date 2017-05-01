@@ -35,6 +35,7 @@ private:
     int n,
         degree,
         maxTime;
+    string units;
     Point origin,
           size,
           nloc,
