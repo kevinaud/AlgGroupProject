@@ -6,13 +6,14 @@
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n);
 int** padZeroMult(int** Matrix, int dim, int newDim);
 
-int** matrixMultDivideAndConquer(int** A, int ** B, int n) {
+int** matrixMultDivideAndConquer(int** A, int** B, int n) {
 	double logn = log2(static_cast<double>(n));
+	int oldDim = n;
 	if (floor(logn) != logn) {
 		int newDim = pow(2,floor(logn) + 1);
 		A = padZeroMult(A, n, newDim);
 		B = padZeroMult(B, n, newDim);
-		n = newDim;
+        n = newDim;
 	}
 
 	int** C = new int*[n];
@@ -23,8 +24,29 @@ int** matrixMultDivideAndConquer(int** A, int ** B, int n) {
 		}
 	}
 	matMultRec(A, B, C, 0, 0, 0, 0, 0, 0, n);
+	if(oldDim == n){
 
-	return C;
+        return C;
+	}
+	else{
+        int** c = new int*[n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                    c[i][j] = C[i][j];
+        }
+        }
+        for(int i = 0; i < n; i++){
+            delete[] A[i];
+            delete B[i];
+            delete C[i];
+        }
+        delete[] A;
+        delete[] B;
+        delete[] C;
+
+        return C;
+	}
+
 }
 
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n) {
@@ -94,10 +116,7 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 			newMat[i][j] = 0;
 		}
 	}
-	for (int i = 0; i < dim; i++) {
-		delete[] Matrix[i];
-	}
-	delete[] Matrix;
+
 	return newMat;
 }
 

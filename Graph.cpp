@@ -138,7 +138,7 @@ void Graph::erase(MatrixMultFunc f){
 void Graph::redraw(){
     plotter->clear();
     drawAxis();
-    
+
     //get new maxTime
     maxTime = START_MAX_TIME;
     for(auto t : times)
@@ -274,6 +274,7 @@ bool Graph::plot(MatrixMultFunc f, Color color){
         }
 
         //time algorithm
+        cout << "HERE";
         auto start = Clock::now();
         C = f(A,B,cur);
         auto end = Clock::now();
@@ -293,7 +294,7 @@ bool Graph::plot(MatrixMultFunc f, Color color){
         n_values[f].push_back(cur);
 
         redraw();
-        
+
         for(int i = 0; i < cur; i++)
             delete []C[i];
         delete []C;
@@ -329,7 +330,7 @@ void Graph::smooth(){
         if(!is_smooth[j.first]){
             is_smooth[j.first] = true;
             vector<double> A = polyReg(n_values[j.first],times[j.first],degree);
-            for (int i = 0; i < A.size(); i++) 
+            for (int i = 0; i < A.size(); i++)
                 cout << i << ": " << A[i] << endl;
 
             for(int k = 0; k < times[j.first].size(); k++){
