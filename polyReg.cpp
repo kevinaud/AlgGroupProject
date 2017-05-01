@@ -1,39 +1,39 @@
 #include "polyReg.h"
 
-vector<double> polyReg(vector<Point> &points, int deg) {
+vector<double> polyReg(vector<int> &x, vector<int> &y, int deg) {
 
-	double**z = new double*[points.size()];
-    double** Y = new double*[points.size()];
+	double**z = new double*[x.size()];
+    double** Y = new double*[x.size()];
 
-    for (int i = 0; i < points.size(); i++) {
+    for (int i = 0; i < x.size(); i++) {
         z[i] = new double[deg];
         for (int j = 0; j < deg; j++) {
-            z[i][j] = pow(points[i].x, j);
+            z[i][j] = pow(x[i], j);
         }
         Y[i] = new double[1];
-        Y[i][0] = points[i].y;
+        Y[i][0] = y[i];
     }
 
-    double** zT = matTranspose(z, points.size(), deg);
-    double** A1 = notSquareMatMult(zT, z, deg, points.size(), deg);
+    double** zT = matTranspose(z, x.size(), deg);
+    double** A1 = notSquareMatMult(zT, z, deg, x.size(), deg);
 
-    for(int i = 0; i < points.size(); i++)
+    for(int i = 0; i < x.size(); i++)
         delete []z[i];
     delete[]z;
-    double** A2 = notSquareMatMult(zT, Y, deg, points.size(), 1);
+    double** A2 = notSquareMatMult(zT, Y, deg, x.size(), 1);
 
     for(int i = 0; i < deg; i++)
         delete []zT[i];
-    for(int i = 0; i < points.size(); i++)
-        delete[]Y[i];
     delete[]zT;
+
+    for(int i = 0; i < x.size(); i++)
+        delete[]Y[i];
     delete[]Y;
 
     double ** A = new double*[deg];
     for (int i = 0; i < deg; i++) {
         A[i] = new double[deg + 1];
         for (int j = 0; j < deg; j++) {
-
             A[i][j] = A1[i][j];
         }
         A[i][deg] = A2[i][0];
@@ -52,13 +52,7 @@ vector<double> polyReg(vector<Point> &points, int deg) {
     }
     delete[]A;
 
-    cout << "a: ";
-    for(int i = 0; i < sizeof(a) / sizeof(double); i++)
-        cout << a[i] << ',';
-    cout << endl;
-
-    return vector<double>(a, a + sizeof(a) / sizeof(double));
-
+    return vector<double>(a, a + deg);
 }
 
 double** matTranspose(double** A, int r, int c) {

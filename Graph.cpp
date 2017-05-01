@@ -135,6 +135,12 @@ void Graph::redraw(){
     erase();
     drawAxis();
     
+    //get new maxTime
+    maxTime = START_MAX_TIME;
+    for(auto t : times)
+        for(int k = 0; k < t.second.size(); k++)
+            maxTime = max(maxTime,t.second[k]);
+
     //recalculate y based on maxTime
     for(auto j = points.begin(); j != points.end(); j++)
         for(int k = 0; k < times[j->first].size(); k++)
@@ -282,8 +288,8 @@ bool Graph::plot(MatrixMultFunc f, Color color){
         redraw();
         
         for(int i = 0; i < cur; i++)
-            delete C[i];
-        delete C;
+            delete []C[i];
+        delete []C;
 
         if(plotter->getQuit()){
             ret = false;
@@ -313,7 +319,7 @@ void Graph::smooth(){
 
     for(auto j : points){
         cout << "poly" << endl;
-        vector<double> A = polyReg(points[j.first],degree);
+        vector<double> A = polyReg(n_values[j.first],times[j.first],degree);
         cout << "done poly" << endl;
         for(int k = 0; k < j.second.size(); k++){
             //smoothify
@@ -321,12 +327,12 @@ void Graph::smooth(){
             cout << "A: ";
             for(int i = 0; i < A.size(); i++){
                 cout << A[i] << ',';
-                result += A[i] * pow(j.second[k].x,i);
+                result += A[i] * pow(n_values[j.first][k],i);
             }
             cout << endl;
             cout << "prev: " << j.second[k].y << endl;
             cout << "result: " << result << endl;
-            j.second[k].y = result;
+            times[j.first][k] = result;
             cout << "norm: " << j.second[k].y << endl;
         }
     }

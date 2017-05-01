@@ -108,8 +108,10 @@ int main(int argc, char ** argv)
                     }
                     break;
                 case RIGHT_ARROW:
-                    deg++;
-                    graph.setSmoothness(deg);
+                    if(deg < n){
+                        deg++;
+                        graph.setSmoothness(deg);
+                    }
                     break;
                 case LEFT_ARROW:
                     if(deg <= 0)
