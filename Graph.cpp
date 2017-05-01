@@ -1,8 +1,10 @@
 #include "Graph.h"
 
 #define START_MAX_TIME 1000000
+#define MIN_TIME 1000
 #define MOST_TESTS 100
-#define NS_PER 100000
+#define NS_PER_MS 1000000
+#define NS_LIMIT 30
 
 //DEBUGGING
 #include <iostream>
@@ -46,6 +48,13 @@ void Graph::drawAxis(){
     yAxis.setColor(c);
     yAxis.stroke = 3;
 
+    //set y axis to nanoseconds or milliseconds
+    if(n < NS_LIMIT)
+        units = "nanosec";
+    else
+        units = "millisec";
+
+
     if(sloc.x > -1 && sloc.y > -1){
         font->drawString(*plotter, Point(sloc.x,sloc.y - 30), "RIGHT/LEFT");
         font->drawLabeledInt(*plotter, sloc, "Smoothness: ", degree);
@@ -55,16 +64,17 @@ void Graph::drawAxis(){
         font->drawLabeledInt(*plotter, nloc, "N: ", n);
     }
 
-    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
+    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time" + units);
 
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
     font->drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + font->getSize() + 40), "N (Matrix Size)");
 
+    //draw y axis
     int i = 0;
     int step = maxTime / 10;
     for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
         Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
-        string label = to_string(i * step / NS_PER);
+        string label = to_string(i * step / ((n < NS_LIMIT) ? 1 : NS_PER_MS));
         int labelLength = font->calcStringLength(label);
 
         Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
@@ -83,6 +93,7 @@ void Graph::drawAxis(){
         i++;
     }
 
+    //draw x axis
     i = 0;
     step = n / 10;
     for (int x = origin.x + 2; x <= bottomRight.x + 2; x += (size.x / 10)){
@@ -140,7 +151,7 @@ void Graph::redraw(){
     drawAxis();
 
     //get new maxTime
-    maxTime = START_MAX_TIME;
+    maxTime = MIN_TIME;
     for(auto t : times)
         for(int k = 0; k < t.second.size(); k++)
             maxTime = max(maxTime,t.second[k]);
@@ -158,8 +169,7 @@ void Graph::redraw(){
     //redraw points
     for(auto j : points){
         for(int k = 1; k < j.second.size(); k++){
-            if(n_values[j.first][k] <= n)
-            {
+            if(n_values[j.first][k] <= n && n_values[j.first][k] >= 0 && times[j.first][k] >= 0){
                 Line l(j.second[k - 1],j.second[k]);
                 l.setColor(colors[j.first]);
                 l.stroke = 3;
@@ -192,7 +202,7 @@ void Graph::clear(MatrixMultFunc f){
         is_smooth.erase(f);
 
         //find new maxTime
-        maxTime = START_MAX_TIME;
+        maxTime = MIN_TIME;
         for(auto t : times)
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
@@ -249,36 +259,43 @@ bool Graph::plot(MatrixMultFunc f, Color color){
     int step = 2;
     if(n > MOST_TESTS){
         int step = n / MOST_TESTS;
-        ////be sure step is even
         //be sure step is even
         if(step % 2)
             step++;
     }
 
+    cout << "alloc " << n << endl;
     //allocate matrices
     A = new int*[n];
     B = new int*[n];
     for(int i = 0; i < n; i++){
+        cout << i << endl;
         A[i] = new int[n];
         B[i] = new int[n];
     }
+    cout << "allocd " << n << "x" << n << endl;
 
-    for(int cur = 2; cur <= n; cur += step){
+    for(int cur = 2; cur < n; cur += step){
 
+        cout << "gen" << endl;
         //generate random matrices
         for(int r = 0; r < cur; r++){
             for(int c = 0; c < cur; c++){
+                cout << r << ',' << c << endl;
                 A[r][c] = rand() % 10;
                 B[r][c] = rand() % 10;
             }
         }
+        cout << "/gen" << endl;
 
         //time algorithm
-        cout << "HERE";
+
+        cout << "algorithm" << endl;
         auto start = Clock::now();
         C = f(A,B,cur);
         auto end = Clock::now();
         unsigned int time = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+        cout << "/algorithm" << endl;
 
         //adjust y if new maxTime
         if(time > maxTime)
@@ -295,9 +312,12 @@ bool Graph::plot(MatrixMultFunc f, Color color){
 
         redraw();
 
+
+        cout << "deleting C" << endl;
         for(int i = 0; i < cur; i++)
             delete []C[i];
         delete []C;
+        cout << "/deleting C" << endl;
 
         if(plotter->getQuit()){
             ret = false;
@@ -325,24 +345,18 @@ bool Graph::plot(MatrixMultFunc f, Color color){
 
 void Graph::smooth(){
 
-    cout << "degree = " << degree << endl;
     for(auto j : points){
         if(!is_smooth[j.first]){
             is_smooth[j.first] = true;
             vector<double> A = polyReg(n_values[j.first],times[j.first],degree);
-            for (int i = 0; i < A.size(); i++)
-                cout << i << ": " << A[i] << endl;
 
             for(int k = 0; k < times[j.first].size(); k++){
                 //smoothify
                 double result = 0;
-                for(int i = 0; i < A.size(); i++){
+                for(int i = 0; i < A.size(); i++)
                     result += A[i] * pow(n_values[j.first][k], i);
-                    cout << result << " + ";
-                }
-                cout << endl << "result: " << result << endl;
+
                 times[j.first][k] = result;
-                cout << "times set: " << times[j.first][k] << endl;
             }
         }
     }

@@ -94,7 +94,7 @@ int main(int argc, char ** argv)
                     graph.setN(n);
                     break;
                 case DOWN_ARROW:
-                    if(n > 0){
+                    if(n > T1){
                         if(n < 20)
                             n -= T1;
                         else if(n < 50)

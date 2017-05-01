@@ -8,9 +8,12 @@ int** padZeroMult(int** Matrix, int dim, int newDim);
 
 int** matrixMultDivideAndConquer(int** A, int** B, int n) {
 	double logn = log2(static_cast<double>(n));
-	int oldDim = n;
+
+    bool pad = false;
+    int newDim;
 	if (floor(logn) != logn) {
-		int newDim = pow(2,floor(logn) + 1);
+        pad = true;
+		newDim = pow(2,floor(logn) + 1);
 		A = padZeroMult(A, n, newDim);
 		B = padZeroMult(B, n, newDim);
         n = newDim;
@@ -24,28 +27,15 @@ int** matrixMultDivideAndConquer(int** A, int** B, int n) {
 		}
 	}
 	matMultRec(A, B, C, 0, 0, 0, 0, 0, 0, n);
-	if(oldDim == n){
 
-        return C;
-	}
-	else{
-        int** c = new int*[n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                    c[i][j] = C[i][j];
+    if(pad){
+        for(int i = 0; i < newDim; i++){
+            delete[]A[i];
+            delete[]B[i];
         }
-        }
-        for(int i = 0; i < n; i++){
-            delete[] A[i];
-            delete B[i];
-            delete C[i];
-        }
-        delete[] A;
-        delete[] B;
-        delete[] C;
-
-        return C;
-	}
+        delete[]A;
+        delete[]B;
+    }
 
 }
 
@@ -95,8 +85,6 @@ int** BF_MatrixMult(int** A, int ** B, int n) {
 
 int** padZeroMult(int** Matrix, int dim, int newDim){
 
-
-
 	int** newMat = new int*[newDim];
 	for (int i = 0; i < newDim;i++) {
 		newMat[i] = new int[newDim];
@@ -116,6 +104,13 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 			newMat[i][j] = 0;
 		}
 	}
+
+    /*
+	for (int i = 0; i < dim; i++) {
+		delete[] Matrix[i];
+	}
+	delete[] Matrix;
+    */
 
 	return newMat;
 }
