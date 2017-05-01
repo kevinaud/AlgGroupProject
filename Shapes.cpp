@@ -1,3 +1,13 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This source file contains the function definitions for
+*	the shapes classes that can be plotted
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
 #include "Shapes.h"
 
 #include <cassert>

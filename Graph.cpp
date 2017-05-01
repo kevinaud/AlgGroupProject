@@ -1,3 +1,12 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This source file contains the function definitions for
+*	the Graph class that handles all of the plotting
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
 #include "Graph.h"
 
 #define START_MAX_TIME 1000000

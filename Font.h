@@ -1,3 +1,13 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This header file contains the implementation for
+*	the Font class that allows for easy writing of text to the screen
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
 #include <map>
 #include <vector>
 #include <algorithm>
@@ -195,9 +205,9 @@ public:
         chars[':'].push_back(Line(Point(middle,(size / 3) * 2), Point(middle - 1,(size / 3) * 2)));
         chars[':'].push_back(Line(Point(middle,size / 3), Point(middle - 1,size / 3)));
 
-        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),0), 
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),0),
                         Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5))));
-        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5)), 
+        chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 15.0) / 17) + 0.5)),
                         Point((int)(((size * 4.0) / 17) + 0.5), size)));
         chars['('].push_back(Line(Point((int)(((size * 4.0) / 17) + 0.5),(int)(((size * 2.0) / 17) + 0.5)),
                         Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 4.0) / 17) + 0.5))));
@@ -221,7 +231,7 @@ public:
         chars[')'].push_back(Line(Point((int)(((size * 3.0) / 17) + 0.5),(int)(((size * 9.0) / 17) + 0.5)),
                 Point((int)(((size * 2.0) / 17) + 0.5),(int)(((size * 12.0) / 17) + 0.5))));
 
-        chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)), 
+        chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)),
                     Point((int)(((size * 0.0)/ 7.0) + 0.5),(int)(((size * 8.0)/ 7.0) + 0.5))));
 
 		chars['^'].push_back(Line(Point(0,(int)((2.0 * size) / 13.0)),Point((int)((2.0 * size) / 13.0),0)));

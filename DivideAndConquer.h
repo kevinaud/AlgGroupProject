@@ -1,4 +1,14 @@
-#ifndef DIVIDEANDCONQUER_H_INCLUDED
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This header file contains the function definition for
+*	a divide and conquer and a brute force matrix multiplication function.
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
+
 #define DIVIDEANDCONQUER_H_INCLUDED
 
 #include <cmath>
@@ -7,17 +17,10 @@ void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCo
 int** padZeroMult(int** Matrix, int dim, int newDim);
 
 int** matrixMultDivideAndConquer(int** A, int** B, int n) {
-	double logn = log2(static_cast<double>(n));
 
     bool pad = false;
     int newDim;
-	/*if (floor(logn) != logn) {
-        pad = true;
-		newDim = pow(2,floor(logn) + 1);
-		A = padZeroMult(A, n, newDim);
-		B = padZeroMult(B, n, newDim);
-        n = newDim;
-	}*/
+
 	if(n%2 == 1){
         pad = true;
 		newDim = n+1;

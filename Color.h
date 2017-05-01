@@ -1,3 +1,12 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This header file contains the function prototypes for
+*	the Color class
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
 #ifndef COLOR_H_INCLUDED
 #define COLOR_H_INCLUDED
 

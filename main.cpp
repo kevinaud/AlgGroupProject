@@ -1,4 +1,32 @@
-#include <iostream>
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This source file contains the main function that handles
+*   user input from the keyboard and calls the correct function
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
+/**
+ * Data Abstraction:
+ * 		SDL_Plotter, Graph, and Font are created is created
+ * 		3 variables, a, b, and c, are initialized for use with their counterparts in the formula
+ * Input:
+ * 		The program reads in keyboard hits from the user
+ * Process:
+ * 		The backbones of the UI are drawn to the screen(Label, axes, etc)
+ * 		The function loops while the window is open and reads input, calling the correct functions
+ * Output:
+ * 		The running times of the algorithms are displayed on the screen and can be curve fit
+ * Assumptions:
+ * 		It is assumed that the user only wants to visualize 4 matrix multiplication algorithms
+ * 		It is assumed that the user has a keyboard
+ * 		It is assumed that, having been prompted to do so, the user will hit the correct key
+ */
+
+
+ #include <iostream>
 
 #include "SDL_Plotter.h"
 #include "Shapes.h"
@@ -117,9 +145,9 @@ int main(int argc, char ** argv)
                     break;
                 case LEFT_ARROW:
                     if(deg <= 0)
-                        deg = 0; 
+                        deg = 0;
                     else
-                        deg--;  
+                        deg--;
                     graph.setSmoothness(deg);
                     break;
 

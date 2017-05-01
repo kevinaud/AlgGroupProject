@@ -1,3 +1,14 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This source file contains the function definitions for
+*	a polynomial regression function that takes a 2 vectors of ints and a degree
+*   for the fit
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
 #include "polyReg.h"
 
 vector<double> polyReg(vector<int> &x, vector<int> &y, int deg) {

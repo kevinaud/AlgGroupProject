@@ -1,3 +1,14 @@
+/**
+* Authors: Kevin Aud|Jesse McNicoll|Connor Blandin|Jackson Swenson
+* Assignment Title: Group Project
+* Assignment Description: This header file contains the shape class
+*	prototypes
+* Due Date: 5/1/2017
+* Date Created: 4/28/2017
+* Date Last Modified: 5/1/2017
+*/
+
+
 #include <algorithm>
 #include <cmath>
 
@@ -15,7 +26,7 @@ public:
 
 	/****************************************************
 	 * description: default constructor
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: none
 	 ***************************************************/
@@ -23,7 +34,7 @@ public:
 
 	/****************************************************
 	 * description: constructor
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: x and y are set to the values that
 	 * 	were passed in
@@ -32,9 +43,9 @@ public:
 
 	/****************************************************
 	 * description: copy constructor
-	 * return: none 
+	 * return: none
 	 * precondition: none
-	 * postcondition: all attributes of this point are 
+	 * postcondition: all attributes of this point are
 	 * 	equal to the attributes of the point that was
 	 * 	passed in
 	 ***************************************************/
@@ -42,7 +53,7 @@ public:
 
 	/****************************************************
 	 * description: overloaded equality operator
-	 * return: boolean 
+	 * return: boolean
 	 * precondition: none
 	 * postcondition: returns true if both points have
 	 * 	the same x and y values
@@ -51,7 +62,7 @@ public:
 
 	/****************************************************
 	 * description: color setter
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: color attribute is updated
 	 ***************************************************/
@@ -60,7 +71,7 @@ public:
 	/****************************************************
 	 * description: draws a point at the x and y
 	 * 	location of this point
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: a point was drawn at that location
 	 * 	using the plotter
@@ -74,11 +85,11 @@ public:
     Point p2; // second point
     int stroke = 1; // line thickness
     Color color = Color(0, 0, 0); // color of line
-	
+
 	/****************************************************
 	 * description: creates a new line between the two
 	 * 	points that are passed in
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: the two points that are passed in
 	 * 	are stored
@@ -88,7 +99,7 @@ public:
 	/****************************************************
 	 * description: draws a line on these screen between
 	 * 	the two points of the line
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: a line was drawn on the plotter
 	 ***************************************************/
@@ -98,7 +109,7 @@ public:
 	 * description: draws a line between the two points
 	 * 	of this line and offsets the line based on the
 	 * 	point that was passed in
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: a line was drawn on the plotter
 	 ***************************************************/
@@ -106,7 +117,7 @@ public:
 
 	/****************************************************
 	 * description: color setter
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: color was updated
 	 ***************************************************/
@@ -130,7 +141,7 @@ public:
 
 	/****************************************************
 	 * description: constructor
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: attributes are set
 	 ***************************************************/
@@ -138,7 +149,7 @@ public:
 
 	/****************************************************
 	 * description: draws a rectangle on the screen
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: rectangle is drawn on the screen
 	 ***************************************************/
@@ -146,7 +157,7 @@ public:
 
 	/****************************************************
 	 * description: color setter
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: color is updated
 	 ***************************************************/
@@ -162,7 +173,7 @@ public:
 
 	/****************************************************
 	 * description: constructor
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: attributes are set
 	 ***************************************************/
@@ -170,7 +181,7 @@ public:
 
 	/****************************************************
 	 * description: draws the circle to the screen
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: circle was drawn to the screen
 	 ***************************************************/
@@ -178,7 +189,7 @@ public:
 
 	/****************************************************
 	 * description: color setter
-	 * return: none 
+	 * return: none
 	 * precondition: none
 	 * postcondition: color was updated
 	 ***************************************************/
