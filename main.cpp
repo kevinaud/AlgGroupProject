@@ -134,7 +134,6 @@ int main(int argc, char ** argv)
                     }
                     break;
                 case 'N':
-                    cout << "deg = " << deg << endl;
                     graph.smooth();
                     break;
                 case RIGHT_ARROW:
@@ -144,9 +143,7 @@ int main(int argc, char ** argv)
                     }
                     break;
                 case LEFT_ARROW:
-                    if(deg <= 0)
-                        deg = 0;
-                    else
+                    if(deg > 1)
                         deg--;
                     graph.setSmoothness(deg);
                     break;

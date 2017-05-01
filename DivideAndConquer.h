@@ -8,6 +8,7 @@
 * Date Last Modified: 5/1/2017
 */
 
+
 #ifndef DIVIDEANDCONQUER_H_INCLUDED
 #define DIVIDEANDCONQUER_H_INCLUDED
 
@@ -136,9 +137,5 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 
 	return newMat;
 }
-
-
-
-
 
 #endif // DIVIDEANDCONQUER_H_INCLUDED
