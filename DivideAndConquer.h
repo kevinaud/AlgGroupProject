@@ -9,6 +9,7 @@
 */
 
 
+#ifndef DIVIDEANDCONQUER_H_INCLUDED
 #define DIVIDEANDCONQUER_H_INCLUDED
 
 #include <cmath>
@@ -132,9 +133,5 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 
 	return newMat;
 }
-
-
-
-
 
 #endif // DIVIDEANDCONQUER_H_INCLUDED

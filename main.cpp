@@ -134,7 +134,6 @@ int main(int argc, char ** argv)
                     }
                     break;
                 case 'N':
-                    cout << "deg = " << deg << endl;
                     graph.smooth();
                     break;
                 case RIGHT_ARROW:
