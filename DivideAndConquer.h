@@ -40,8 +40,14 @@ int** matrixMultDivideAndConquer(int** A, int** B, int n) {
 }
 
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n) {
-	if (n == 1) {
-		C[cRow][cCol] += A[aRow][aCol] * B[bRow][bCol];
+		if (n < 30) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				for (int k = 0; k < n; k++) {
+					C[cRow + i][cCol + j] += A[aRow + i][aCol + k] * B[bRow + k][bCol + j];
+				}
+			}
+		}
 	}
 	else {
 		matMultRec(A, B, C, aRow, aCol, bRow, bCol, cRow, cCol, n / 2);
