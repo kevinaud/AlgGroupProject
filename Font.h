@@ -223,6 +223,9 @@ public:
 
         chars[','].push_back(Line(Point((int)(((size * 1.0)/ 7.0) + 0.5),(int)(((size * 6.0)/ 7.0) + 0.5)), 
                     Point((int)(((size * 0.0)/ 7.0) + 0.5),(int)(((size * 8.0)/ 7.0) + 0.5))));
+
+		chars['^'].push_back(Line(Point(0,(int)((2.0 * size) / 13.0)),Point((int)((2.0 * size) / 13.0),0)));
+		chars['^'].push_back(Line(Point((int)((2.0 * size) / 13.0),0),Point((int)((4.0 * size) / 13.0),(int)((2.0 * size) / 13.0))));
     }
 
     void setColor(Color color) {
