@@ -49,7 +49,7 @@ void Graph::drawAxis(){
     if(sloc.x > -1 && sloc.y > -1)
         font->drawLabeledInt(*plotter, sloc, "Smoothness ", degree);
     if(nloc.x > -1 && nloc.y > -1)
-        font->drawLabeledInt(*plotter, nloc, "vN ", n);
+        font->drawLabeledInt(*plotter, nloc, "v^N ", n);
 
     font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
 
@@ -300,11 +300,11 @@ bool Graph::plot(MatrixMultFunc f, Color color){
     }
     //free matrices
     for(int i = 0; i < n; i++){
-        delete A[i];
-        delete B[i];
+        delete []A[i];
+        delete []B[i];
     }
-    delete A;
-    delete B;
+    delete []A;
+    delete []B;
 
     return ret;
 }
@@ -318,9 +318,14 @@ void Graph::smooth(){
         for(int k = 0; k < j.second.size(); k++){
             //smoothify
             double result = 0;
-            for(int i = 0; i < A.size(); i++)
+            cout << "A: ";
+            for(int i = 0; i < A.size(); i++){
+                cout << A[i] << ',';
                 result += A[i] * pow(j.second[k].x,i);
+            }
+            cout << endl;
             cout << "prev: " << j.second[k].y << endl;
+            cout << "result: " << result << endl;
             j.second[k].y = result;
             cout << "norm: " << j.second[k].y << endl;
         }
