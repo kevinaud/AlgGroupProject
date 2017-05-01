@@ -25,6 +25,8 @@ namespace COLOR {
     const Color GREEN(0, 255, 0);
     const Color BLUE(0, 0, 255);
     const Color PURPLE(128,66,244);
+    const Color ORANGE(232,116,0);
+    const Color PINK(255,192,203);
 }
 
 #endif

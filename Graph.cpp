@@ -1,7 +1,8 @@
 #include "Graph.h"
 
-#define START_MAX_TIME 1
+#define START_MAX_TIME 1000000
 #define MOST_TESTS 100
+#define NS_PER 100000
 
 //DEBUGGING
 #include <iostream>
@@ -10,7 +11,7 @@
 using namespace std;
 
 int ** testFunc(int **A, int **B, int dim){
-    SDL_Delay(((double)dim * (double)dim) / 10.0);
+    SDL_Delay(dim * dim / 5000);
     int ** c = new int*[dim];
     for(int i = 0; i < dim; i++)
         c[i] = new int[dim];
@@ -39,66 +40,118 @@ void Graph::drawAxis(){
     Line yAxis(origin, topLeft);
 
     xAxis.setColor(c);
+    xAxis.stroke = 3;
     yAxis.setColor(c);
+    yAxis.stroke = 3;
 
-    const int FONT_SIZE = 25;
-    Font f(FONT_SIZE);
+    if(nloc.x > -1 || nloc.y > -1)
+        font->drawLabeledInt(*plotter, nloc, "N ", n);
 
-    f.drawString(*plotter, Point(topLeft.x - 75, topLeft.y - FONT_SIZE - 5), "Y(time)");
+    font->drawString(*plotter, Point(topLeft.x - 75, topLeft.y - font->getSize() - 50), "Time(ms)");
 
     Point middleBottom((origin.x + bottomRight.x) / 2, origin.y);
-    f.drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + FONT_SIZE + 40), "X(matrix size)");
+    font->drawString(*plotter, Point(middleBottom.x - 150, middleBottom.y + font->getSize() + 40), "N (Matrix Size)");
+
+    int i = 0;
+    int step = maxTime / 10;
+    for (int y = origin.y; y >= topLeft.y; y -= (size.y / 10)){
+        Line(Point(origin.x - 15, y), Point(origin.x, y)).draw(*plotter);
+        string label = to_string(i * step / NS_PER);
+        int labelLength = font->calcStringLength(label);
+
+        Point labelLoc(origin.x - 30 - labelLength, y - (0.5 * font->getSize()));
+        Point rectLoc(0, labelLoc.y - 5);
+        int rectW = origin.x - 20;
+        int rectH = font->getSize() + 10;
+        Rectangle rect(rectLoc, rectW, rectH);
+        rect.setColor(COLOR::WHITE);
+        rect.draw(*plotter);
+
+
+        if (labelLoc.x < 0) {
+            labelLoc.x = 0;
+        }
+        font->drawString(*plotter, labelLoc, label);
+        i++;
+    }
+
+    i = 0;
+    step = n / 10;
+    for (int x = origin.x + 2; x <= bottomRight.x + 2; x += (size.x / 10)){
+        Line(Point(x, origin.y + 15), Point(x, origin.y)).draw(*plotter);
+        string label = to_string(i * step);
+        int labelLength = font->calcStringLength(label);
+        Point labelLoc(x - (labelLength / 2) - 3, origin.y + 25);
+        font->drawString(*plotter, labelLoc, label);
+        i++;
+    }
 
     xAxis.draw(*plotter);
     yAxis.draw(*plotter);
+
+    //draw controls
+    Color tmp = font->getColor();
+    font->setColor(COLOR::RED);
+    font->drawString(*plotter,Point(850, plotter->getRow()/2), "B Brute Force");
+    font->setColor(COLOR::GREEN);
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 30),"D Divide and Conquer");
+    font->setColor(COLOR::BLUE);
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 60),"S Strassen");
+    font->setColor(COLOR::ORANGE);
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 90),"T Threaded Strassen");
+    font->setColor(COLOR::PINK);
+    font->drawString(*plotter,Point(850, plotter->getRow()/2 + 120),"C Clear");
+    font->setColor(tmp);
 }
 
+
 void Graph::test(){
-    plot(&testFunc);
+    plot(testFunc);
 }
 
 void Graph::erase(MatrixMultFunc f){
-    cout << "erase" << endl;
     if(f){
         for(int k = 1; k < points[f].size(); k++){
             Line l(points[f][k - 1],points[f][k]);
             l.setColor(eraser);
+            l.stroke = 3;
             l.draw(*plotter);
         }
     }
     else{
         for(auto j : points){
-            for(int k = 1; k < j.second.size(); k++){
-                Line l(j.second[k - 1],j.second[k]);
-                l.setColor(eraser);
-                l.draw(*plotter);
-            }
+            erase(j.first);
         }
     }
 }
 
 void Graph::redraw(){
     erase();
-    if(nloc.x > -1 && nloc.y > -1)
-        font->drawLabeledInt(*plotter,nloc,"N ",n);
     drawAxis();
+    
     //recalculate y based on maxTime
-    for(auto j : points){
-        auto t = times.begin();
-        for(int k = 0; k < j.second.size(); k++){
-            j.second[k].y = origin.y - (double)size.y * ((double)t->second[k] / (double)maxTime);
-        }
-        t++;
-    }
+    for(auto j = points.begin(); j != points.end(); j++)
+        for(int k = 0; k < times[j->first].size(); k++)
+            j->second[k].y = origin.y - (double)size.y * ((double)times[j->first][k] / (double)maxTime);
+
+    //recalculate x based on n_values
+    for(auto j = points.begin(); j != points.end(); j++)
+        for(int k = 0; k < n_values[j->first].size(); k++)
+            j->second[k].x = origin.x + (double)size.x * ((double)n_values[j->first][k] / (double)n);
 
     //redraw points
     for(auto j : points){
         for(int k = 1; k < j.second.size(); k++){
-            Line l(j.second[k - 1],j.second[k]);
-            l.setColor(c);
-            l.draw(*plotter);
+            if(n_values[j.first][k] <= n)
+            {
+                Line l(j.second[k - 1],j.second[k]);
+                l.setColor(colors[j.first]);
+                l.stroke = 3;
+                l.draw(*plotter);
+            }
         }
     }
+    plotter->update();
 }
 
 void Graph::clear(){
@@ -106,6 +159,8 @@ void Graph::clear(){
     erase();
     points.clear();
     times.clear();
+    n_values.clear();
+    colors.clear();
     redraw();
 }
 
@@ -115,14 +170,14 @@ void Graph::clear(MatrixMultFunc f){
 
         points.erase(f);
         times.erase(f);
+        n_values.erase(f);
+        colors.erase(f);
 
-        cout << "max: " << maxTime << endl;
         //find new maxTime
         maxTime = START_MAX_TIME;
         for(auto t : times)
             for(int k = 0; k < t.second.size(); k++)
                 maxTime = max(maxTime,t.second[k]);
-        cout << "newMax: " << maxTime << endl;
 
         redraw();
     }
@@ -134,6 +189,12 @@ void Graph::setColor(Color c){
 
 void Graph::setN(int n){
     this->n = n;
+
+    //find new maxTime bounded by new n
+    for(auto t : times)
+        for(int k = 0; k < t.second.size(); k++)
+            if(t.second[k] <= n)
+                maxTime = max(maxTime,t.second[k]);
     redraw();
 }
 
@@ -142,31 +203,39 @@ void Graph::setNLoc(Point nl){
     redraw();
 }
 
-void Graph::plot(MatrixMultFunc f){
+bool Graph::plot(MatrixMultFunc f, Color color){
     srand(SDL_GetTicks());
 
     int **A, **B, **C;
 
     int prevX = origin.x;
     int prevY = origin.y;
+    bool ret = true;
 
     clear(f);
+    colors[f] = color;
     points[f].push_back(Point(prevX,prevY));
     times[f].push_back(0);
+    n_values[f].push_back(0);
 
     int step = 2;
-    if(n > MOST_TESTS)
+    if(n > MOST_TESTS){
         int step = n / MOST_TESTS;
+        ////be sure step is even
+        //be sure step is even
+        if(step % 2)
+            step++;
+    }
+
+    //allocate matrices
+    A = new int*[n];
+    B = new int*[n];
+    for(int i = 0; i < n; i++){
+        A[i] = new int[n];
+        B[i] = new int[n];
+    }
 
     for(int cur = 2; cur <= n; cur += step){
-        cout << "max: " << maxTime << endl;
-        //allocate matrices
-        A = new int*[cur];
-        B = new int*[cur];
-        for(int i = 0; i < cur; i++){
-            A[i] = new int[cur];
-            B[i] = new int[cur];
-        }
 
         //generate random matrices
         for(int r = 0; r < cur; r++){
@@ -177,36 +246,52 @@ void Graph::plot(MatrixMultFunc f){
         }
 
         //time algorithm
-        int time = SDL_GetTicks();
+        auto start = Clock::now();
         C = f(A,B,cur);
-        time = SDL_GetTicks() - time;
-        cout << cur << ',' << time << endl;
+        auto end = Clock::now();
+        unsigned int time = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 
         //adjust y if new maxTime
         if(time > maxTime)
-            maxTime = time + 20;
+            maxTime = time + 10;
+
         int normX = origin.x + (double)size.x * ((double)cur / (double)n);
         int normY = origin.y - (double)size.y * ((double)time / (double)maxTime);
-        plotter->plotPixel(normX, normY, c.r, c.g, c.b);
 
         prevX = normX;
         prevY = normY;
-        points[f].push_back(Point(prevX,prevY));
+        points[f].push_back(Point(normX,normY));
         times[f].push_back(time);
+        n_values[f].push_back(cur);
+
         redraw();
-
-        plotter->update();
-
-        //free matrices
-        for(int i = 0; i < cur; i++){
-            delete A[i];
-            delete B[i];
+        
+        for(int i = 0; i < cur; i++)
             delete C[i];
-        }
-        delete A;
-        delete B;
         delete C;
+
+        if(plotter->getQuit()){
+            ret = false;
+            break;
+        }
+        if(plotter->kbhit()){
+            char c = plotter->getKey();
+            if(c == 'C'){
+                clear(f);
+                ret = false;
+                break;
+            }
+        }
     }
+    //free matrices
+    for(int i = 0; i < n; i++){
+        delete A[i];
+        delete B[i];
+    }
+    delete A;
+    delete B;
+
+    return ret;
 }
 
 DataPoint::DataPoint(Point data, Point loc) {
@@ -242,15 +327,4 @@ void DataPoint::draw(SDL_Plotter& p, Font f, int radius) {
 
     f.drawString(p, textLoc, result);
 }
-
-
-
-
-
-
-
-
-
-
-
 

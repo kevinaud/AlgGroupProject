@@ -28,7 +28,7 @@ double * polyReg(int* x, int* y, int n, int deg) {
 
     double** zT = matTranspose(z, n, deg);
 
-    double** A1 = notSquareMatMult(zT, z, deg, n, deg); 
+    double** A1 = notSquareMatMult(zT, z, deg, n, deg);
 
     delete[]z;
     double** A2 = notSquareMatMult(zT, Y, deg, n, 1);
@@ -38,6 +38,7 @@ double * polyReg(int* x, int* y, int n, int deg) {
     for (int i = 0; i < deg; i++) {
         A[i] = new double[deg + 1];
         for (int j = 0; j < deg; j++) {
+
             A[i][j] = A1[i][j];
         }
         A[i][deg] = A2[i][0];
