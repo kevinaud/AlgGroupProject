@@ -1,9 +1,20 @@
 #ifndef DIVIDEANDCONQUER_H_INCLUDED
 #define DIVIDEANDCONQUER_H_INCLUDED
 
+#include <cmath>
+
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n);
+int** padZeroMult(int** Matrix, int dim, int newDim);
 
 int** matrixMultDivideAndConquer(int** A, int ** B, int n) {
+	double logn = log2(static_cast<double>(n));
+	if (floor(logn) != logn) {
+		int newDim = pow(2,floor(logn) + 1);
+		A = padZeroMult(A, n, newDim);
+		B = padZeroMult(B, n, newDim);
+		n = newDim;
+	}
+
 	int** C = new int*[n];
 	for (int i = 0; i < n; i++) {
 		C[i] = new int[n];
@@ -24,7 +35,7 @@ void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCo
 		matMultRec(A, B, C, aRow, aCol, bRow, bCol, cRow, cCol, n / 2);
 		matMultRec(A, B, C, aRow, aCol + n / 2, bRow + n / 2, bCol, cRow, cCol, n / 2);
 
-		matMultRec(A, B, C, aRow, aCol, bRow, bCol + n/2, cRow, cCol + n / 2, n / 2);
+		matMultRec(A, B, C, aRow, aCol, bRow, bCol + n / 2, cRow, cCol + n / 2, n / 2);
 		matMultRec(A, B, C, aRow, aCol + n / 2, bRow + n / 2, bCol + n / 2, cRow, cCol + n / 2, n / 2);
 
 		matMultRec(A, B, C, aRow + n / 2, aCol, bRow, bCol, cRow + n / 2, cCol, n / 2);
@@ -58,6 +69,38 @@ int** BF_MatrixMult(int** A, int ** B, int n) {
 	}
 	return C;
 }
+
+
+int** padZeroMult(int** Matrix, int dim, int newDim){
+
+
+
+	int** newMat = new int*[newDim];
+	for (int i = 0; i < newDim;i++) {
+		newMat[i] = new int[newDim];
+	}
+	for (int i = 0; i < dim;i++) {
+		for (int j = 0;j < dim;j++) {
+			newMat[i][j] = Matrix[i][j];
+		}
+	}
+	for (int i = 0; i < dim;i++) {
+		for (int j = dim; j < newDim; j++) {
+			newMat[i][j] = 0;
+		}
+	}
+	for (int i = dim; i < newDim;i++) {
+		for (int j = 0; j < newDim; j++) {
+			newMat[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < dim; i++) {
+		delete[] Matrix[i];
+	}
+	delete[] Matrix;
+	return newMat;
+}
+
 
 
 
