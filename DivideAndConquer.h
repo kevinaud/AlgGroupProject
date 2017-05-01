@@ -8,12 +8,23 @@
 * Date Last Modified: 5/1/2017
 */
 
-
+#ifndef DIVIDEANDCONQUER_H_INCLUDED
 #define DIVIDEANDCONQUER_H_INCLUDED
 
 #include <cmath>
-
+/*
+ * description: recursive divide and conquer function
+ * return: void
+ * postcondition: Product of A and B are stored in C
+*/
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n);
+
+
+/*
+ * description: Pad zeros to a matrix
+ * return: padded matrix pointer
+ * postcondition: return is an newDim x newDim matrix
+*/
 int** padZeroMult(int** Matrix, int dim, int newDim);
 
 int** matrixMultDivideAndConquer(int** A, int** B, int n) {
@@ -122,13 +133,6 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 			newMat[i][j] = 0;
 		}
 	}
-
-    /*
-	for (int i = 0; i < dim; i++) {
-		delete[] Matrix[i];
-	}
-	delete[] Matrix;
-*/
 
 	return newMat;
 }

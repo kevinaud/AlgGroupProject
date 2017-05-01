@@ -23,6 +23,11 @@ private:
     int size;
 public:
 
+/*
+ * description: initialize size of Font
+ * return: void
+ * postcondition: Font is set to print as size
+*/
     Font(int size) {
 
         if (size % 2 == 0) {
@@ -240,6 +245,7 @@ public:
         chars['/'].push_back(Line(Point(size,0), Point(0,size)));
     }
 
+
     void setColor(Color color) {
         this->color = color;
     }
@@ -276,6 +282,7 @@ public:
         }
         return loc.x + maxX;
     }
+
 
     void drawString(SDL_Plotter& p, Point loc, string s) {
         transform(s.begin(), s.end(), s.begin(), ::tolower);
@@ -328,6 +335,11 @@ public:
         drawString(p,loc,str);
     }
 
+/*
+ * description: displays string and then int together
+ * return: void
+ * postcondition: string and int are on screen
+*/
     void drawLabeledInt(SDL_Plotter &p, Point loc, string label, int num){
         string str;
         while(num){
