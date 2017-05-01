@@ -11,9 +11,16 @@ int** matrixMultDivideAndConquer(int** A, int** B, int n) {
 
     bool pad = false;
     int newDim;
-	if (floor(logn) != logn) {
+	/*if (floor(logn) != logn) {
         pad = true;
 		newDim = pow(2,floor(logn) + 1);
+		A = padZeroMult(A, n, newDim);
+		B = padZeroMult(B, n, newDim);
+        n = newDim;
+	}*/
+	if(n%2 == 1){
+        pad = true;
+		newDim = n+1;
 		A = padZeroMult(A, n, newDim);
 		B = padZeroMult(B, n, newDim);
         n = newDim;
@@ -37,10 +44,12 @@ int** matrixMultDivideAndConquer(int** A, int** B, int n) {
         delete[]B;
     }
 
+    return C;
+
 }
 
 void matMultRec(int** A, int** B, int** C, int aRow, int aCol, int bRow, int bCol, int cRow, int cCol, int n) {
-		if (n < 30) {
+		if (n < 50 || n%2 == 1) {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				for (int k = 0; k < n; k++) {
@@ -116,7 +125,7 @@ int** padZeroMult(int** Matrix, int dim, int newDim){
 		delete[] Matrix[i];
 	}
 	delete[] Matrix;
-    */
+*/
 
 	return newMat;
 }

@@ -281,7 +281,7 @@ bool Graph::plot(MatrixMultFunc f, Color color){
         //generate random matrices
         for(int r = 0; r < cur; r++){
             for(int c = 0; c < cur; c++){
-                cout << r << ',' << c << endl;
+                //cout << r << ',' << c << endl;
                 A[r][c] = rand() % 10;
                 B[r][c] = rand() % 10;
             }

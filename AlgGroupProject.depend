@@ -1,0 +1,71 @@
+# depslib dependency file v1.0
+1493500266 source:h:\algorithms_project\alggroupproject\shapes.cpp
+	"Shapes.h"
+	<cassert>
+
+1493608715 h:\algorithms_project\alggroupproject\shapes.h
+	<algorithm>
+	<cmath>
+	"SDL_Plotter.h"
+	"Color.h"
+
+1493425255 h:\algorithms_project\alggroupproject\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1493606317 h:\algorithms_project\alggroupproject\color.h
+
+1493629848 source:h:\algorithms_project\alggroupproject\graph.cpp
+	"Graph.h"
+	<iostream>
+	<cassert>
+
+1493627575 h:\algorithms_project\alggroupproject\graph.h
+	<cstdlib>
+	<vector>
+	<map>
+	<chrono>
+	"Color.h"
+	"Shapes.h"
+	"Font.h"
+	"SDL_Plotter.h"
+	"polyReg.h"
+
+1493623627 h:\algorithms_project\alggroupproject\font.h
+	<map>
+	<vector>
+	<algorithm>
+	"Shapes.h"
+
+1493613099 h:\algorithms_project\alggroupproject\polyreg.h
+	<cmath>
+	<vector>
+	<algorithm>
+	"Shapes.h"
+
+1493627575 source:h:\algorithms_project\alggroupproject\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+	"Shapes.h"
+	"DivideAndConquer.h"
+	"Color.h"
+	"Graph.h"
+	"Font.h"
+	"ThreadedStrassen.h"
+	<ctime>
+
+1493630089 h:\algorithms_project\alggroupproject\divideandconquer.h
+	<cmath>
+
+1493606317 h:\algorithms_project\alggroupproject\threadedstrassen.h
+	<cstdlib>
+	<pthread.h>
+
+1493623627 source:h:\algorithms_project\alggroupproject\polyreg.cpp
+	"polyReg.h"
+
